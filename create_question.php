@@ -19,7 +19,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/main_page.css">
+    <link rel="stylesheet" href="css/create_question.css">
     <link rel="stylesheet" href="css/navbar.css">
 
 </head>
@@ -33,10 +33,10 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="main_page.php">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
                     <a class="nav-link" href="create_question.php">Vytvoriť otázku</a>
                 </li>
                 <li class="nav-item">
@@ -60,8 +60,58 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
         </div>
     </nav>
 
+    <div class="container">
+        <!-- Selectbox -->
+        <select class="custom-select" id="questionType" name="questionType">
+            <option value="1">Otázka s výberom správnej odpovede</option>
+            <option value="2">Otázka s otvorenou krátkou odpoveďou</option>
+        </select>
 
+        <div id="answerQuestionContainer" class="choose-answer-question-container add-question-container">
+            <p>SAMUEL ipsum dolor sit amet consectetur adipisicing elit. Ut laboriosam aliquam vitae eveniet quisquam
+                necessitatibus! Corporis vel nemo autem itaque excepturi tenetur facere, minus odio ullam, dolore
+                reiciendis. Eligendi, ipsam!</p>
+        </div>
 
+        <div id="openQuestionContainer" class="open-question-container add-question-container">
+            <form id="questionForm">
+                <!-- Vstup pre otázku -->
+                <label for="question" class='bold'>Otázka:</label>
+                <input type="text" id="question" name="question" required>
+
+                <label for="subject" class='bold'>Skratka predmetu:</label>
+                <input type="text" id="subject" name="subject" required>
+
+                <!-- Skryté vstupné pole pre dátum vytvorenia -->
+                <input type="hidden" id="creationDate" name="creationDate" value="">
+
+                <input type="hidden" id="questionType" name="questionType" value="open">
+
+                <input type="hidden" id="isOpen" name="isOpen" value="true">
+
+                <!-- Typ otázky -->
+                <div class="show-type-div">
+                    <label for="answerDisplay" class='bold'>Zobrazovanie odpovedí:</label>
+
+                    <div class="item">
+                        <input type="radio" id="list" name="answerDisplay" value="list" required>
+                        <label for="list">Položky zoznamu</label>
+                    </div>
+
+                    <div class="item">
+                        <input type="radio" id="wordCloud" name="answerDisplay" value="wordCloud">
+                        <label for="wordCloud">Word Cloud</label>
+                    </div>
+                </div>
+
+                <!-- Tlačidlo na odoslanie formulára -->
+                <input type="submit" value="Vytvoriť otázku">
+            </form>
+        </div>
+
+    </div>
+
+    <script src='scripts/create_question.js'></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>

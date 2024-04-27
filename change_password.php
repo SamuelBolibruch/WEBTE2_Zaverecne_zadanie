@@ -1,3 +1,20 @@
+<?php
+        session_start(); // Start session
+        
+        require_once 'config.php';
+
+        // Redirect to login if not logged in
+        if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+            header("location: index.php");
+            exit;
+        }
+
+        $is_post_request = $_SERVER["REQUEST_METHOD"] == "POST";
+
+        $email = $_SESSION["email"];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +30,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,7 +41,7 @@
                     <a class="nav-link" href="main_page.php">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="create_question.php">Vytvoriť otázku</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Pricing</a>
@@ -60,19 +77,7 @@
         </form>
 
         <?php
-        session_start(); // Start session
-        
-        require_once 'config.php';
-
-        // Redirect to login if not logged in
-        if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-            header("location: index.php");
-            exit;
-        }
-
-        $is_post_request = $_SERVER["REQUEST_METHOD"] == "POST";
-
-        $email = $_SESSION["email"]; // Get email from session
+        // Get email from session
         
         if ($is_post_request) {
             // Get form data
