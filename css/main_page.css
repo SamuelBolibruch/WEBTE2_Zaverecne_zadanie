@@ -10,6 +10,45 @@
 
 }
 
+#questionsTable {
+    width: 100%;
+}
+
+#questionsTable_wrapper {
+    padding: 2em;
+    width: 100%;
+}
+
+.modal {
+    display: none; /* Skryť modálne okno zatiaľ, kým sa nevyvolá */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: auto; /* Povoliť posúvanie obsahu, ak je viac obsahu ako je viditeľné */
+    background-color: rgba(0, 0, 0, 0.4); /* Stmavenie pozadia */
+}
+
+/* Štýly pre obsah modálneho okna */
+.modal-content {
+    display: flex;
+    align-items: center;
+    background-color: #fefefe;
+    margin: 15% auto; /* Zarovnanie obsahu na stred */
+    padding: 20px;
+    border: 1px solid #888;
+    width: max-content; /* Obsah bude mať šírku podľa svojich vnútorných elementov */
+
+}
+
+.question-id-cell {
+    cursor: pointer;
+}
+
 @media (max-width: 991px) {
     .container {
         padding: 2em 0;
