@@ -38,7 +38,7 @@
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="main_page.php">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="main_page.php">Otázky<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="create_question.php">Vytvoriť otázku</a>

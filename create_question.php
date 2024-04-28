@@ -34,7 +34,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="main_page.php">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="main_page.php">Otázky<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="create_question.php">Vytvoriť otázku</a>
@@ -68,13 +68,48 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
         </select>
 
         <div id="answerQuestionContainer" class="choose-answer-question-container add-question-container">
-            <p>SAMUEL ipsum dolor sit amet consectetur adipisicing elit. Ut laboriosam aliquam vitae eveniet quisquam
-                necessitatibus! Corporis vel nemo autem itaque excepturi tenetur facere, minus odio ullam, dolore
-                reiciendis. Eligendi, ipsam!</p>
+            <form id="closedQuestionForm">
+                <label for="question1" class='bold'>Otázka:</label>
+                <input type="text" id="question1" name="question1" required>
+
+                <label for="subject1" class='bold'>Skratka predmetu:</label>
+                <input type="text" id="subject1" name="subject1" required>
+
+                <!-- Skryté vstupné pole pre dátum vytvorenia -->
+                <input type="hidden" id="creationDate1" name="creationDate1" value="">
+
+                <!-- Skryté vstupné pole pre typ otázky -->
+                <input type="hidden" id="questionType1" name="questionType1" value="defined-answers">
+
+                <!-- Skryté vstupné pole pre otvorenosť otázky -->
+                <input type="hidden" id="isOpen1" name="isOpen1" value="true">
+
+                <input type="hidden" id="numOfAnswers1" name="numOfAnswers1" value="2">
+
+                <!-- Možnosti odpovedí -->
+                <div class='bold'>Odpovede:</div>
+                <div id="answerOptions">
+                    <div class="answer-option">
+                        <label for="answer1">Možnosť 1</label>
+                        <input type="text" id="answer1" name="answer1" required>
+                    </div>
+                    <div class="answer-option">
+                        <label for="answer2">Možnosť 2</label>
+                        <input type="text" id="answer2" name="answer2" required>
+                    </div>
+                </div>
+
+                <!-- Tlačidlo na pridanie ďalšej možnosti -->
+                <button type="button" id="addOptionButton" style="background-color: transparent; border: none; color: gray; cursor: pointer;">Pridať ďalšiu možnosť</button>
+
+                <!-- Tlačidlo na odoslanie formulára -->
+                <input type="submit" value="Vytvoriť otázku">
+            </form>
         </div>
 
+
         <div id="openQuestionContainer" class="open-question-container add-question-container">
-            <form id="questionForm">
+            <form id="openQuestionForm">
                 <!-- Vstup pre otázku -->
                 <label for="question" class='bold'>Otázka:</label>
                 <input type="text" id="question" name="question" required>
@@ -91,7 +126,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
 
                 <!-- Typ otázky -->
                 <div class="show-type-div">
-                    <label for="answerDisplay" class='bold'>Zobrazovanie odpovedí:</label>
+                    <div class='bold'>Zobrazovanie odpovedí:</div>
 
                     <div class="item">
                         <input type="radio" id="list" name="answerDisplay" value="list" required>
@@ -107,6 +142,10 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
                 <!-- Tlačidlo na odoslanie formulára -->
                 <input type="submit" value="Vytvoriť otázku">
             </form>
+        </div>
+
+        <div class='add-question-container' id='message-div'>
+            <h6 id='message'></h6>
         </div>
 
     </div>

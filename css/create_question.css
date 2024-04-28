@@ -92,6 +92,10 @@ input[type="submit"]:hover {
     font-weight: bold;
 }
 
+#message-div {
+    display: none;
+    text-align: center;
+}
 
 @media (max-width: 991px) {
     .container {

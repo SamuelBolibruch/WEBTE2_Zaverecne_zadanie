@@ -34,7 +34,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">Otázky<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="create_question.php">Vytvoriť otázku</a>
@@ -60,6 +60,9 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
         </div>
     </nav>
 
+    <div class="container">
+        
+    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

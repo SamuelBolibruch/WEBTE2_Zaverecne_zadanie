@@ -14,7 +14,7 @@ function generateUniqueCode($length = 5) {
     return $code;
 }
 
-
+// Skontrolujte, či užívateľ je prihlásený
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: index.php");
     exit;
@@ -23,7 +23,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 // Skontrolujte, či dáta boli odoslané z formulára
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Získať dáta z formulára
-    $uniqueID = generateUniqueCode();
     $question = $_POST["question"];
     $subject = $_POST["subject"];
     $creationDate = $_POST["creationDate"];
@@ -31,11 +30,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isOpen = $_POST["isOpen"];
     $answerDisplay = $_POST["answerDisplay"];
 
+    // Získanie emailu zo session
+    $email = $_SESSION["email"];
+
     try {
         // Príprava príkazu INSERT
-        $stmt = $conn->prepare("INSERT INTO questions (id, question, subject, creation_date, question_type, is_open, answers_display)
-                               VALUES (:uniqueID, :question, :subject, :creationDate, :questionType, :isOpen, :answerDisplay)");
+        $stmt = $conn->prepare("INSERT INTO questions (id, question, subject, creation_date, question_type, is_active, answers_display, user_email)
+                               VALUES (:uniqueID, :question, :subject, :creationDate, :questionType, :isOpen, :answerDisplay, :email)");
         
+        // Generovanie unikátneho kódu
+        $uniqueID = generateUniqueCode();
+
         // Bindovanie parametrov
         $stmt->bindParam(':uniqueID', $uniqueID);
         $stmt->bindParam(':question', $question);
@@ -44,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':questionType', $questionType);
         $stmt->bindParam(':isOpen', $isOpen);
         $stmt->bindParam(':answerDisplay', $answerDisplay);
+        $stmt->bindParam(':email', $email);
 
         // Vykonanie príkazu
         $stmt->execute();
