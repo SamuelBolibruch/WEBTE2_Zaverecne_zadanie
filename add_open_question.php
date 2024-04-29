@@ -14,6 +14,33 @@ function generateUniqueCode($length = 5) {
     return $code;
 }
 
+function isUniqueCodeInDatabase($uniqueCode, $connection) {
+    try {
+        // Príprava príkazu SELECT
+        $stmt = $connection->prepare("SELECT * FROM questions WHERE id=:id");
+        
+        // Bindovanie parametrov
+        $stmt->bindParam(':id', $uniqueCode);
+
+        // Vykonanie príkazu
+        $stmt->execute();
+
+        // Získanie počtu riadkov výsledku
+        $rowCount = $stmt->rowCount();
+
+        // Ak je počet riadkov viac ako 0, záznam existuje
+        if ($rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch(PDOException $e) {
+        echo "Chyba pri vyhľadávaní záznamu: " . $e->getMessage();
+        return false; // Ak nastane chyba, vrátime false
+    }
+}
+
+
 // Skontrolujte, či užívateľ je prihlásený
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: index.php");
@@ -34,13 +61,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_SESSION["email"];
 
     try {
+        do {
+            // Generovanie unikátneho kódu
+            $uniqueID = generateUniqueCode();
+    
+            // Kontrola, či taký kód už existuje v databáze
+            $codeExist = isUniqueCodeInDatabase($uniqueID, $conn);
+        } while ($codeExist); // Opakovať, pokiaľ kód existuje v databáze
+    
         // Príprava príkazu INSERT
         $stmt = $conn->prepare("INSERT INTO questions (id, question, subject, creation_date, question_type, is_active, answers_display, user_email)
                                VALUES (:uniqueID, :question, :subject, :creationDate, :questionType, :isOpen, :answerDisplay, :email)");
         
-        // Generovanie unikátneho kódu
-        $uniqueID = generateUniqueCode();
-
         // Bindovanie parametrov
         $stmt->bindParam(':uniqueID', $uniqueID);
         $stmt->bindParam(':question', $question);
@@ -50,13 +82,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':isOpen', $isOpen);
         $stmt->bindParam(':answerDisplay', $answerDisplay);
         $stmt->bindParam(':email', $email);
-
+    
         // Vykonanie príkazu
         $stmt->execute();
-
+    
         echo "Záznam bol úspešne vložený do databázy.";
     } catch(PDOException $e) {
         echo "Chyba pri vkladaní záznamu: " . $e->getMessage();
     }
+    
 }
 ?>

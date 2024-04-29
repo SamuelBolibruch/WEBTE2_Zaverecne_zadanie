@@ -49,6 +49,11 @@
     cursor: pointer;
 }
 
+.center-align {
+    text-align: center;
+}
+
+
 @media (max-width: 991px) {
     .container {
         padding: 2em 0;

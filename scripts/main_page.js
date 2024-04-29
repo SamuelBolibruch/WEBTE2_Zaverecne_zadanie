@@ -24,7 +24,41 @@ document.addEventListener("DOMContentLoaded", function() {
                 cell1.textContent = question.question;
                 cell2.textContent = question.id;
                 cell2.classList.add('question-id-cell'); // Pridanie triedy pre stĺpec s id otázky
-                cell3.textContent = question.is_active;
+
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = question.is_active;
+
+                checkbox.addEventListener('change', function() {
+                    var questionId = question.id;
+                    var questionState = checkbox.checked;
+                
+                    // Vytvoriť požiadavku
+                    var xhr = new XMLHttpRequest();
+                
+                    // Nastaviť metódu a URL
+                    xhr.open("PUT", "edit_question_active_state.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            // Spracovať odpoveď zo servera
+                            console.log(xhr.responseText);
+                        }
+                    };
+                
+                    var data = {
+                        question_id: questionId,
+                        question_state: questionState
+                    };
+                
+                    var jsonData = JSON.stringify(data);
+                    xhr.send(jsonData);
+                });
+
+                cell3.appendChild(checkbox);
+                cell3.classList.add('center-align'); // Pridanie triedy pre zarovnanie na stred
+
                 cell4.textContent = question.question_type;
                 cell5.textContent = question.creation_date;
 

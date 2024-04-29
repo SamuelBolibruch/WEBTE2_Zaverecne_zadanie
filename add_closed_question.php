@@ -14,6 +14,32 @@ function generateUniqueCode($length = 5) {
     return $code;
 }
 
+function isUniqueCodeInDatabase($uniqueCode, $connection) {
+    try {
+        // Príprava príkazu SELECT
+        $stmt = $connection->prepare("SELECT * FROM questions WHERE id=:id");
+        
+        // Bindovanie parametrov
+        $stmt->bindParam(':id', $uniqueCode);
+
+        // Vykonanie príkazu
+        $stmt->execute();
+
+        // Získanie počtu riadkov výsledku
+        $rowCount = $stmt->rowCount();
+
+        // Ak je počet riadkov viac ako 0, záznam existuje
+        if ($rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch(PDOException $e) {
+        echo "Chyba pri vyhľadávaní záznamu: " . $e->getMessage();
+        return false; // Ak nastane chyba, vrátime false
+    }
+}
+
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: index.php");
     exit;
@@ -21,7 +47,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Získanie údajov z formulára
-    $uniqueID = generateUniqueCode();
     $question = $_POST["question1"];
     $subject = $_POST["subject1"];
     $creationDate = $_POST["creationDate1"];
@@ -33,6 +58,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     try {
+        do {
+            // Generovanie unikátneho kódu
+            $uniqueID = generateUniqueCode();
+    
+            // Kontrola, či taký kód už existuje v databáze
+            $codeExist = isUniqueCodeInDatabase($uniqueID, $conn);
+        } while ($codeExist); // Opakovať, pokiaľ kód existuje v databáze
+        
         // Príprava príkazu INSERT
         $stmt = $conn->prepare("INSERT INTO questions (id, question, subject, creation_date, question_type, is_active, user_email)
                                VALUES (:uniqueID, :question, :subject, :creationDate, :questionType, :isOpen, :email)");
