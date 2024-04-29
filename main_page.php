@@ -22,7 +22,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main_page.css">
     <link rel="stylesheet" href="css/navbar.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -72,6 +72,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
                     <th>Aktívna</th>
                     <th>Typ otázky</th>
                     <th>Dátum vytvorenia</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>

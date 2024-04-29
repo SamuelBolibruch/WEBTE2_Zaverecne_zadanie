@@ -53,6 +53,17 @@
     text-align: center;
 }
 
+.remove-image {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+/* Zarovnanie textu na stred pre všetky <th> a <td> */
+#questionsTable th,
+#questionsTable td {
+    text-align: center;
+}
+
 
 @media (max-width: 991px) {
     .container {

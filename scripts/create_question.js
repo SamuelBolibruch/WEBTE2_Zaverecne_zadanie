@@ -31,7 +31,7 @@ document.getElementById("addOptionButton").addEventListener("click", function ()
 
     numOfAnswers++;
 
-    numOfAnswersField.value = numOfAnswers++;
+    numOfAnswersField.value = numOfAnswers;
 
     // Vytvorenie nového divu pre ďalšiu možnosť odpovede
     var newOptionDiv = document.createElement("div");
@@ -42,20 +42,34 @@ document.getElementById("addOptionButton").addEventListener("click", function ()
     newLabel.htmlFor = "answer" + (optionCount + 1);
     newLabel.textContent = "Možnosť " + (optionCount + 1) + ":";
 
-    // Vytvorenie nového inputu
+    // Vytvorenie nového inputu pre odpoveď
     var newInput = document.createElement("input");
     newInput.type = "text";
     newInput.id = "answer" + (optionCount + 1);
     newInput.name = "answer" + (optionCount + 1);
     newInput.required = true;
 
-    // Pridanie labelu a inputu do nového divu
+    // Vytvorenie nového inputu pre označenie správnej možnosti
+    var newCheckbox = document.createElement("input");
+    newCheckbox.type = "checkbox";
+    newCheckbox.id = "correctAnswer" + (optionCount + 1);
+    newCheckbox.name = "correctAnswer" + (optionCount + 1);
+
+    // Vytvorenie nového labelu pre označenie správnej možnosti
+    var newCheckboxLabel = document.createElement("label");
+    newCheckboxLabel.htmlFor = "correctAnswer" + (optionCount + 1);
+    newCheckboxLabel.textContent = "Správna možnosť";
+
+    // Pridanie vytvorených prvkov do nového divu
     newOptionDiv.appendChild(newLabel);
     newOptionDiv.appendChild(newInput);
+    newOptionDiv.appendChild(newCheckbox);
+    newOptionDiv.appendChild(newCheckboxLabel);
 
     // Pridanie nového divu do zoznamu možností odpovedí
     answerOptions.appendChild(newOptionDiv);
 });
+
 
 document.getElementById("closedQuestionForm").addEventListener("submit", function (event) {
     event.preventDefault(); // Zabrániť štandardnému odosielaniu formulára
@@ -87,22 +101,38 @@ document.getElementById("closedQuestionForm").addEventListener("submit", functio
             for (var i = 0; i < 2; i++) {
                 var newOptionDiv = document.createElement("div");
                 newOptionDiv.classList.add("answer-option");
-
+            
                 var newLabel = document.createElement("label");
                 newLabel.htmlFor = "answer" + (i + 1);
                 newLabel.textContent = "Možnosť " + (i + 1) + ":";
-
+            
                 var newInput = document.createElement("input");
                 newInput.type = "text";
                 newInput.id = "answer" + (i + 1);
                 newInput.name = "answer" + (i + 1);
                 newInput.required = true;
-
+            
+                var newCheckbox = document.createElement("input");
+                newCheckbox.type = "checkbox";
+                newCheckbox.id = "correctAnswer" + (i + 1);
+                newCheckbox.name = "correctAnswer" + (i + 1);
+            
+                var newCheckboxLabel = document.createElement("label");
+                newCheckboxLabel.htmlFor = "correctAnswer" + (i + 1);
+                newCheckboxLabel.textContent = "Správna možnosť";
+            
+                // Přidání mezery mezi checkboxem a popiskem "Správna možnost"
+                var space = document.createTextNode("\u00A0"); // \u00A0 je nezlomitelná mezera
                 newOptionDiv.appendChild(newLabel);
                 newOptionDiv.appendChild(newInput);
-
+                newOptionDiv.appendChild(newCheckbox);
+                newOptionDiv.appendChild(space);
+                newOptionDiv.appendChild(newCheckboxLabel);
+            
                 answerOptions.appendChild(newOptionDiv);
             }
+            
+            
 
             // Nastaviť počet odpovedí na 2
             document.getElementById("numOfAnswers1").value = 2;

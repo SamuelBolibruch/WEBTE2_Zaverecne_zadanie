@@ -3,7 +3,8 @@ session_start(); // Začatie relácie
 
 require_once 'config.php';
 
-function generateUniqueCode($length = 5) {
+function generateUniqueCode($length = 5)
+{
     $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $code = '';
@@ -14,11 +15,12 @@ function generateUniqueCode($length = 5) {
     return $code;
 }
 
-function isUniqueCodeInDatabase($uniqueCode, $connection) {
+function isUniqueCodeInDatabase($uniqueCode, $connection)
+{
     try {
         // Príprava príkazu SELECT
         $stmt = $connection->prepare("SELECT * FROM questions WHERE id=:id");
-        
+
         // Bindovanie parametrov
         $stmt->bindParam(':id', $uniqueCode);
 
@@ -34,7 +36,7 @@ function isUniqueCodeInDatabase($uniqueCode, $connection) {
         } else {
             return false;
         }
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
         echo "Chyba pri vyhľadávaní záznamu: " . $e->getMessage();
         return false; // Ak nastane chyba, vrátime false
     }
@@ -56,20 +58,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = $_SESSION["email"];
 
+    // Získanie počtu správnych odpovedí
+    $numOfCorrectAnswers = 0;
+    for ($i = 1; $i <= $numOfAnswers; $i++) {
+        if (isset($_POST["correctAnswer" . $i])) {
+            $numOfCorrectAnswers++;
+        }
+    }
 
     try {
         do {
             // Generovanie unikátneho kódu
             $uniqueID = generateUniqueCode();
-    
+
             // Kontrola, či taký kód už existuje v databáze
             $codeExist = isUniqueCodeInDatabase($uniqueID, $conn);
         } while ($codeExist); // Opakovať, pokiaľ kód existuje v databáze
-        
+
         // Príprava príkazu INSERT
-        $stmt = $conn->prepare("INSERT INTO questions (id, question, subject, creation_date, question_type, is_active, user_email)
-                               VALUES (:uniqueID, :question, :subject, :creationDate, :questionType, :isOpen, :email)");
-        
+        $stmt = $conn->prepare("INSERT INTO questions (id, question, subject, creation_date, question_type, is_active, user_email, right_answers)
+                               VALUES (:uniqueID, :question, :subject, :creationDate, :questionType, :isOpen, :email, :numOfCorrectAnswers)");
+
         // Bindovanie parametrov
         $stmt->bindParam(':uniqueID', $uniqueID);
         $stmt->bindParam(':question', $question);
@@ -78,32 +87,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':questionType', $questionType);
         $stmt->bindParam(':isOpen', $isOpen);
         $stmt->bindParam(':email', $email);
-    
+        $stmt->bindParam(':numOfCorrectAnswers', $numOfCorrectAnswers);
+
         // Vykonanie príkazu
         $stmt->execute();
-    
+
         echo "Záznam bol úspešne vložený do databázy.";
 
-        $stmt = $conn->prepare("INSERT INTO defined_answers (answer, answer_to_question) VALUES (:answer, :questionID)");
+        $stmt = $conn->prepare("INSERT INTO defined_answers (answer, answer_to_question, is_right) VALUES (:answer, :questionID, :isRight)");
 
-        // Pre každú odpoveď vytvorte záznam
+        // Pro každou odpověď vytvořte záznam
         for ($i = 1; $i <= $numOfAnswers; $i++) {
             $answer = $_POST["answer" . $i];
+            $isRight = isset($_POST["correctAnswer" . $i]) ? 'true' : 'false'; // Pokud je odpověď označena jako správná, nastavíme hodnotu 'true', jinak 'false'
 
-            // Bindovanie parametrov pre odpoveď
+            // Bindování parametrů pro odpověď
             $stmt->bindParam(':answer', $answer);
             $stmt->bindParam(':questionID', $uniqueID);
+            $stmt->bindParam(':isRight', $isRight);
 
-            // Vykonanie príkazu pre odpoveď
+            // Vykonání příkazu pro odpověď
             $stmt->execute();
         }
 
+
         echo "Záznamy odpovedí boli úspešne vložené do databázy.";
 
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
         echo "Chyba pri vkladaní záznamu: " . $e->getMessage();
     }
-    
+
 
     // Výpis všetkých možností odpovedí
     // for ($i = 1; $i <= $numOfAnswers; $i++) {

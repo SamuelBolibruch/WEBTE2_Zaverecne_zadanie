@@ -92,19 +92,26 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
                     <div class="answer-option">
                         <label for="answer1">Možnosť 1</label>
                         <input type="text" id="answer1" name="answer1" required>
+                        <input type="checkbox" id="correctAnswer1" name="correctAnswer1">
+                        <label for="correctAnswer1">Správna možnosť</label>
                     </div>
                     <div class="answer-option">
                         <label for="answer2">Možnosť 2</label>
                         <input type="text" id="answer2" name="answer2" required>
+                        <input type="checkbox" id="correctAnswer2" name="correctAnswer2">
+                        <label for="correctAnswer2">Správna možnosť</label>
                     </div>
                 </div>
 
                 <!-- Tlačidlo na pridanie ďalšej možnosti -->
-                <button type="button" id="addOptionButton" style="background-color: transparent; border: none; color: gray; cursor: pointer;">Pridať ďalšiu možnosť</button>
+                <button type="button" id="addOptionButton"
+                    style="background-color: transparent; border: none; color: gray; cursor: pointer;">Pridať ďalšiu
+                    možnosť</button>
 
                 <!-- Tlačidlo na odoslanie formulára -->
                 <input type="submit" value="Vytvoriť otázku">
             </form>
+
         </div>
 
 
