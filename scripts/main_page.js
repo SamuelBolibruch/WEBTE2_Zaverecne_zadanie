@@ -4,8 +4,32 @@ const questionCode = document.getElementById('questionCode');
 const questionAdress = document.getElementById('questionAdress');
 const questionQrCode = document.getElementById('questionQrCode');
 
+var select1 = document.querySelector("select[name='select1']");
+var select2 = document.querySelector("select[name='select2']");
 
 document.addEventListener("DOMContentLoaded", function () {
+    function updateTable() {
+        var selectedSubject = select1.value;
+        var selectedDate = select2.value;
+
+        // Získanie všetkých riadkov tabuľky
+        var rows = document.querySelectorAll("#questionsTable tbody tr");
+
+        // Prechádzanie cez každý riadok a zobrazovanie/skrývanie riadkov podľa výberu v select boxoch
+        rows.forEach(function (row) {
+            var cells = row.cells;
+            var rowSubject = cells[2].textContent; // Index 2 pre stĺpec s predmetom
+            var rowDate = cells[5].textContent;
+
+            // Ak je vybratý predmet zhodný s predmetom riadku a zároveň je vybraný dátum zhodný s dátumom riadku alebo je vybratý prázdny dátum
+            if ((selectedSubject === rowSubject || selectedSubject === "") && (selectedDate === rowDate || selectedDate === "")) {
+                row.style.display = ""; // Zobraziť riadok
+            } else {
+                row.style.display = "none"; // Skryť riadok
+            }
+        });
+    }
+
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -17,15 +41,17 @@ document.addEventListener("DOMContentLoaded", function () {
             response.forEach(function (question) {
                 var row = tableBody.insertRow();
                 var cell1 = row.insertCell(0);
+                cell1.classList.add('align-to-left');
                 var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);
-                var cell4 = row.insertCell(3);
-                var cell5 = row.insertCell(4);
-                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(2);
+                var cell3 = row.insertCell(3);
+                var cell4 = row.insertCell(4);
+                var cell5 = row.insertCell(5);
+                var cell6 = row.insertCell(6);
                 cell1.textContent = question.question;
                 cell2.textContent = question.id;
                 cell2.classList.add('question-id-cell'); // Pridanie triedy pre stĺpec s id otázky
-
+                cell7.textContent = question.subject;
                 var checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.checked = question.is_active;
@@ -148,4 +174,11 @@ document.addEventListener("DOMContentLoaded", function () {
             modal.style.display = "none"; // Skryť modálne okno
         }
     }
+
+    // Nastavenie listenerov na zmeny v select boxoch
+    select1.addEventListener("change", updateTable);
+    select2.addEventListener("change", updateTable);
+
+    // Volanie funkcie updateTable na začiatku, aby sa tabuľka zobrazila podľa predvolených hodnôt select boxov
+    updateTable();
 });

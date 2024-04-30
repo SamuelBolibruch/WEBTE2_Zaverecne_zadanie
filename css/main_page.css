@@ -6,7 +6,8 @@
     flex-direction: column;
     align-items: center;
     margin: 0;
-    max-width: 100%; /* Set max-width to 100% */
+    max-width: 100%;
+    /* Set max-width to 100% */
 
 }
 
@@ -20,7 +21,8 @@
 }
 
 .modal {
-    display: none; /* Skryť modálne okno zatiaľ, kým sa nevyvolá */
+    display: none;
+    /* Skryť modálne okno zatiaľ, kým sa nevyvolá */
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -29,8 +31,10 @@
     top: 0;
     width: 100%;
     height: 100vh;
-    overflow: auto; /* Povoliť posúvanie obsahu, ak je viac obsahu ako je viditeľné */
-    background-color: rgba(0, 0, 0, 0.4); /* Stmavenie pozadia */
+    overflow: auto;
+    /* Povoliť posúvanie obsahu, ak je viac obsahu ako je viditeľné */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Stmavenie pozadia */
 }
 
 /* Štýly pre obsah modálneho okna */
@@ -38,10 +42,12 @@
     display: flex;
     align-items: center;
     background-color: #fefefe;
-    margin: 15% auto; /* Zarovnanie obsahu na stred */
+    margin: 15% auto;
+    /* Zarovnanie obsahu na stred */
     padding: 20px;
     border: 1px solid #888;
-    width: max-content; /* Obsah bude mať šírku podľa svojich vnútorných elementov */
+    width: max-content;
+    /* Obsah bude mať šírku podľa svojich vnútorných elementov */
 
 }
 
@@ -64,9 +70,39 @@
     text-align: center;
 }
 
+.select-boxes-div {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+    margin: 1.5em 0;
+}
+
+.select-boxes-div select {
+    padding: 0.5rem 1.5rem;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 25%;
+    text-align: center;
+}
+
+.align-to-left {
+    text-align: left;
+}
+
 
 @media (max-width: 991px) {
     .container {
         padding: 2em 0;
+    }
+
+    .select-boxes-div {
+        flex-direction: column;
+    }
+
+    .select-boxes-div select {
+        width: 80%;
     }
 }
