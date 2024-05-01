@@ -3,6 +3,16 @@ session_start(); // Začatie relácie
 
 require_once '../config.php';
 
+if (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = 'sk'; // Predvolený jazyk
+}
+
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+}
+
+$lang = require '../languages/' . $_SESSION['lang'] . '.php';
+
 // Skontrolujte, či užívateľ je prihlásený
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: index.php");
@@ -27,10 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
     
         // Vykonanie príkazu
         $stmt->execute();
-    
-        echo "Záznam bol úspešne vymazaný z databázy.";
+
+        echo $lang['record_deleted_success'];
     } catch(PDOException $e) {
-        echo "Chyba pri vymazávaní záznamu: " . $e->getMessage();
+        echo $lang['delete_error'] . $e->getMessage();
     }
 
 }

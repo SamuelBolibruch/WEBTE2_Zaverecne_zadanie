@@ -10,3 +10,4 @@ session_destroy();
 
 // Ak nechcem zobrazovat obsah, presmeruj pouzivatela na hlavnu stranku.
 header('location:index.php');
+?>

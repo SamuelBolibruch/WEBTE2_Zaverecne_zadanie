@@ -1,3 +1,19 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = 'sk'; // Predvolený jazyk
+}
+
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+}
+
+$lang = require 'languages/' . $_SESSION['lang'] . '.php';
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,21 +25,27 @@
 </head>
 
 <body>
+<header>
+    <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 40px"></a> /
+    <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN" style="height: 20px; width: 40px"></a>
+</header>
+
+
     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
-        <h2>Prihlásenie</h2>
-        <label for="email">Meno používateľa:</label>
+        <h2><?php echo $lang['login']; ?></h2>
+        <label for="email"><?php echo $lang['username']; ?></label>
         <input type="text" id="email" name="email" required>
-        <label for="password">Heslo:</label>
+        <label for="password"><?php echo $lang['password']; ?></label>
         <input type="password" id="password" name="password" required>
-        <input type="submit" value="Prihlásiť sa">
-        <a href="registration.php" class="registration-link">Chcem sa zaregistrovať</a>
+        <input type="submit" value="<?php echo $lang['submit']; ?>">
+        <a href="registration.php" class="registration-link"><?php echo $lang['register']; ?></a>
+
+
     </form>
 
     <?php
-    session_start(); // Začatie relácie
     
     require_once 'config.php';
-
 
     if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
         header("location: main_page.php");
