@@ -50,12 +50,6 @@ try {
         $creation_dates[] = $row['creation_date'];
     }
 
-    // Výpis hodnôt pred použitím array_unique
-    echo "<pre>Výpis pred array_unique: ";
-    print_r($subjects);
-    print_r($creation_dates);
-    echo "</pre>";
-
     $unique_subjects = array_unique($subjects);
     $unique_creation_dates = array_unique($creation_dates);
 

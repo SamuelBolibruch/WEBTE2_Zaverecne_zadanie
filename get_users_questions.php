@@ -11,9 +11,24 @@ $email = $_SESSION["email"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
+
+        /*
         // Príprava príkazu SELECT na získanie otázok pre daného používateľa
         $stmt = $conn->prepare("SELECT * FROM questions WHERE user_email=:email");
         $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        */
+
+
+        // Príprava príkazu SELECT na získanie otázok
+        if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
+            // Administrátor vidí otázky všetkých používateľov
+            $stmt = $conn->prepare("SELECT * FROM questions");
+        } else {
+            // Bežný používateľ vidí len svoje otázky
+            $stmt = $conn->prepare("SELECT * FROM questions WHERE user_email=:email");
+            $stmt->bindParam(':email', $email);
+        }
         $stmt->execute();
 
         // Získanie výsledkov z databázy
