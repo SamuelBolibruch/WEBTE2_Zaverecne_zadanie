@@ -37,6 +37,13 @@ $lang = require 'languages/' . $_SESSION['lang'] . '.php';
         <input type="text" id="email" name="email" required>
         <label for="password"><?php echo $lang['password']; ?></label>
         <input type="password" id="password" name="password" required>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="admin_login" id="admin_login"> <?php echo $lang['login_as_admin']; ?>
+            </label>
+        </div>
+
         <input type="submit" value="<?php echo $lang['submit']; ?>">
         <a href="registration.php" class="registration-link"><?php echo $lang['register']; ?></a>
 
@@ -53,40 +60,31 @@ $lang = require 'languages/' . $_SESSION['lang'] . '.php';
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $is_post_request = true;
-    } else {
-        $is_post_request = false;
-    }
-
-    if ($is_post_request) {
         $email = $_POST["email"];
         $password = $_POST["password"];
+        $admin_login = isset($_POST['admin_login']);  // Kontrola, či bol začiarknutý checkbox
 
-        // Pripravenie dotazu na získanie používateľa z databázy podľa emailu
-        $user_query = "SELECT * FROM users WHERE email=:email";
-
-        // Príprava a vykonanie dotazu s použitím PDO
+        $user_query = "SELECT * FROM users WHERE email = :email";
         $stmt = $conn->prepare($user_query);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-
-        // Získanie používateľa z databázy
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Kontrola, či bol používateľ nájdený
         if ($user) {
-            // Kontrola zhody hesiel
             if (password_verify($password, $user['password'])) {
-                $_SESSION["loggedin"] = true;
-                $_SESSION["email"] = $email;
-                header("location: main_page.php");
+                if ($admin_login && !$user['is_admin']) {
+                    echo "Nemáte oprávnenia na prihlásenie ako administrátor.";
+                } else {
+                    $_SESSION["loggedin"] = true;
+                    $_SESSION["email"] = $email;
+                    $_SESSION["is_admin"] = $user['is_admin'];  // Uloženie informácie o admin právach do session
+                    header("location: main_page.php");
+                }
             } else {
-                // Heslo sa nezhoduje
                 echo "Zadané údaje nie sú správne.";
             }
         } else {
-            // Používateľ s daným emailom nebol nájdený
-            echo "Zadané údaje nie sú správne.";
+            echo "Používateľ s daným emailom nebol nájdený.";
         }
     }
 

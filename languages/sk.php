@@ -56,7 +56,9 @@ return [
     'record_deleted_success' => 'Záznam bol úspešne vymazaný z databázy.',
     'delete_error' => 'Chyba pri vymazávaní záznamu: ',
     'not_logged_in' => 'Nie ste prihlásený. Presmerovávam na prihlasovaciu stránku.',
-    'unauthorized_access' => 'Neoprávnený prístup.'
+    'unauthorized_access' => 'Neoprávnený prístup.',
+    'login_as_admin' => 'Prihlásiť sa ako administrátor',
+    'admin' => 'Administrátor',
 ];
 
 ?>

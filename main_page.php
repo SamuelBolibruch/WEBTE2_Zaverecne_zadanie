@@ -22,8 +22,22 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
 
 try {
     // Príprava príkazu SELECT na získanie unikátnych predmetov a dátumov vytvorenia pre daného používateľa
+
+    /*
     $stmt = $conn->prepare("SELECT subject, creation_date FROM questions WHERE user_email=:email");
     $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    */
+
+    // Príprava príkazu SELECT na získanie otázok
+    if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
+        // Administrátor vidí otázky všetkých používateľov
+        $stmt = $conn->prepare("SELECT * FROM questions");
+    } else {
+        // Bežný používateľ vidí len svoje otázky
+        $stmt = $conn->prepare("SELECT subject, creation_date FROM questions WHERE user_email=:email");
+        $stmt->bindParam(':email', $email);
+    }
     $stmt->execute();
 
     // Inicializácia prázdnych polí pre predmety a dátumy vytvorenia
@@ -35,6 +49,12 @@ try {
         $subjects[] = $row['subject'];
         $creation_dates[] = $row['creation_date'];
     }
+
+    // Výpis hodnôt pred použitím array_unique
+    echo "<pre>Výpis pred array_unique: ";
+    print_r($subjects);
+    print_r($creation_dates);
+    echo "</pre>";
 
     $unique_subjects = array_unique($subjects);
     $unique_creation_dates = array_unique($creation_dates);
@@ -96,7 +116,16 @@ try {
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <div class="nav-link"><?php echo $email; ?></div> <!-- Zobrazenie emailu -->
+                <div class="nav-link"><?php echo $email; ?></div>
+            </li>
+            <li class="nav-item">
+                <div class="nav-link">
+                    <?php
+                    if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]) {
+                        echo "(Admin)";
+                    }
+                    ?>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="change_password.php"><?php echo $lang['change_password']; ?></a>
@@ -127,6 +156,7 @@ try {
             foreach ($unique_creation_dates as $date) {
                 echo "<option value='$date'>$date</option>";
             }
+
             ?>
         </select>
     </div>

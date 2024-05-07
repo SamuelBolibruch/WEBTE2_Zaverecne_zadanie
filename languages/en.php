@@ -56,7 +56,9 @@ return [
     'record_deleted_success' => 'Record was successfully deleted from the database.',
     'delete_error' => 'Error deleting record: ',
     'not_logged_in' => 'Not logged in. Redirecting to login page.',
-    'unauthorized_access' => 'Unauthorized access.'
+    'unauthorized_access' => 'Unauthorized access.',
+    'login_as_admin' => 'Login as admin',
+    'admin' => 'Admin',
 ];
 
 
