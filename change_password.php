@@ -40,10 +40,6 @@ $email = $_SESSION["email"];
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-    <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a> ./.
-    <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN" style="height: 20px; width: 30px"></a>
-
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +47,8 @@ $email = $_SESSION["email"];
     </button>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav mr-auto">
+            <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a> ./.
+            <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN" style="height: 20px; width: 30px"></a>
             <li class="nav-item">
                 <a class="nav-link" href="main_page.php"><?php echo $lang['questions']; ?><span class="sr-only">(current)</span></a>
             </li>
@@ -69,6 +67,23 @@ $email = $_SESSION["email"];
             <li class="nav-item">
                 <div class="nav-link"><?php echo $email; ?></div> <!-- Zobrazenie emailu -->
             </li>
+            <li class="nav-item">
+                <div class="nav-link">
+                    <?php
+                    if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]) {
+                        echo "(Admin)";
+                    }
+                    ?>
+                </div>
+            </li>
+
+            <?php
+            if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]) {
+                echo '<li class="nav-item">
+            <a class="nav-link" href="manage_users.php">' . $lang['manage_users'] . '</a>
+          </li>';
+            }
+            ?>
             <li class="nav-item active">
                 <a class="nav-link" href="#"><?php echo $lang['change_password']; ?></a>
             </li>

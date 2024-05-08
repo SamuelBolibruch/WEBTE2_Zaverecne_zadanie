@@ -80,6 +80,8 @@ document.getElementById("closedQuestionForm").addEventListener("submit", functio
     document.getElementById('creationDate1').value = formattedDate;
 
     var formData = new FormData(this);
+    formData.append('userEmail', document.getElementById('userEmail').value);  // Pridanie emailu vybraného používateľa
+
 
     // Odošlite dáta na server pomocou POST requestu
     var xhr = new XMLHttpRequest();

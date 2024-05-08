@@ -3,6 +3,7 @@
 return [
     'login' => 'Login',
     'username' => 'Username:',
+    'user' => 'User',
     'password' => 'Password:',
     'submit' => 'Sign in',
     'register' => 'Register',
@@ -59,6 +60,10 @@ return [
     'unauthorized_access' => 'Unauthorized access.',
     'login_as_admin' => 'Login as admin',
     'admin' => 'Admin',
+    'actions' => 'Actions',
+    'create_in_name' => 'Create in name:',
+    'manage_users' => 'Manage',
+    'managing_users' => 'Managing users',
 ];
 
 

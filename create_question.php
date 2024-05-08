@@ -37,9 +37,6 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-    <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a> ./.
-    <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN" style="height: 20px; width: 30px"></a>
-
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +44,11 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
     </button>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav mr-auto">
+            <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a>
+            ./.
+            <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN"
+                                    style="height: 20px; width: 30px"></a>
+
             <li class="nav-item">
                 <a class="nav-link" href="main_page.php"><?php echo $lang['questions']; ?><span class="sr-only">(current)</span></a>
             </li>
@@ -65,6 +67,24 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
                 <div class="nav-link"><?php echo $email; ?></div> <!-- Zobrazenie emailu -->
             </li>
             <li class="nav-item">
+                <div class="nav-link">
+                    <?php
+                    if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]) {
+                        echo "(Admin)";
+                    }
+                    ?>
+                </div>
+            </li>
+
+            <?php
+            if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]) {
+                echo '<li class="nav-item">
+            <a class="nav-link" href="manage_users.php">' . $lang['manage_users'] . '</a>
+          </li>';
+            }
+            ?>
+
+            <li class="nav-item">
                 <a class="nav-link" href="change_password.php"><?php echo $lang['change_password']; ?></a>
             </li>
             <li class="nav-item">
@@ -80,6 +100,46 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
         <option value="1"><?php echo $lang['question_with_correct_answer']; ?></option>
         <option value="2"><?php echo $lang['open_ended_question']; ?></option>
     </select>
+
+
+    <label for="userEmail"><?php echo $lang['create_in_name']; ?></label>
+    <select id="userEmail" name="userEmail" required>
+        <?php
+        require_once 'config.php';
+
+        if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
+            // Získajte zoznam všetkých používateľov z databázy
+            $users = $conn->query("SELECT email FROM users")->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($users as $user) {
+                echo "<option value='{$user['email']}'>{$user['email']}</option>";
+            }
+        } else {
+            echo "<option value='{$email}'>{$email}</option>";  // Len sám seba, ak nie je admin
+        }
+        ?>
+    </select> <br>
+
+
+    <?php
+
+    /*
+    require_once 'config.php';
+
+    if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
+        echo '<label for="userEmail">' . $lang['create_in_name'] . '</label>
+      <select id="userEmail" name="userEmail" required>';
+
+        // Získajte zoznam všetkých používateľov z databázy
+        $users = $conn->query("SELECT email FROM users")->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($users as $user) {
+            echo "<option value='{$user['email']}'>{$user['email']}</option>";
+        }
+        echo '</select> <br>';
+    }
+
+    */
+    ?>
+
 
     <div id="answerQuestionContainer" class="choose-answer-question-container add-question-container">
         <form id="closedQuestionForm">

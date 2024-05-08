@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isOpen = $_POST["isOpen1"];
     $numOfAnswers = $_POST["numOfAnswers1"];
 
-    $email = $_SESSION["email"];
+    $email = $_POST["userEmail"];
 
     // Získanie počtu správnych odpovedí
     $numOfCorrectAnswers = 0;

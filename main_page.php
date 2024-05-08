@@ -85,8 +85,6 @@ try {
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-    <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a> ./.
-    <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN" style="height: 20px; width: 30px"></a>
 
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -95,6 +93,11 @@ try {
     </button>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav mr-auto">
+            <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a>
+            ./.
+            <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN"
+                                    style="height: 20px; width: 30px"></a>
+
             <li class="nav-item active">
                 <a class="nav-link" href="#"><?php echo $lang['questions']; ?><span class="sr-only">(current)</span></a>
             </li>
@@ -121,6 +124,15 @@ try {
                     ?>
                 </div>
             </li>
+
+            <?php
+            if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]) {
+                echo '<li class="nav-item">
+            <a class="nav-link" href="manage_users.php">' . $lang['manage_users'] . '</a>
+          </li>';
+            }
+            ?>
+
             <li class="nav-item">
                 <a class="nav-link" href="change_password.php"><?php echo $lang['change_password']; ?></a>
             </li>
@@ -165,7 +177,8 @@ try {
             <th><?php echo $lang['active']; ?></th>
             <th><?php echo $lang['question_type']; ?></th>
             <th><?php echo $lang['creation_date']; ?></th>
-            <th></th>
+            <th><?php echo $lang['actions']; ?></th>
+            <th><?php echo $lang['user']; ?></th>
         </tr>
         </thead>
         <tbody>

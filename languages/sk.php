@@ -3,6 +3,7 @@
 return [
     'login' => 'Prihlásenie',
     'username' => 'Meno používateľa:',
+    'user' => 'Používateľ',
     'password' => 'Heslo:',
     'submit' => 'Prihlásiť sa',
     'register' => 'Registrovať sa',
@@ -59,6 +60,10 @@ return [
     'unauthorized_access' => 'Neoprávnený prístup.',
     'login_as_admin' => 'Prihlásiť sa ako administrátor',
     'admin' => 'Administrátor',
+    'actions' => 'Akcie',
+    'create_in_name' => 'Vytvoriť v mene:',
+    'manage_users' => 'Spravovať',
+    'managing_users' => 'Spravovanie užívateľov',
 ];
 
 ?>

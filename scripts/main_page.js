@@ -48,10 +48,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 var cell4 = row.insertCell(4);
                 var cell5 = row.insertCell(5);
                 var cell6 = row.insertCell(6);
+                var cell8 = row.insertCell(7);
+
                 cell1.textContent = question.question;
                 cell2.textContent = question.id;
                 cell2.classList.add('question-id-cell'); // Pridanie triedy pre stĺpec s id otázky
                 cell7.textContent = question.subject;
+                cell8.textContent = question.user_email;
                 var checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.checked = question.is_active;
