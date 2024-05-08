@@ -20,6 +20,18 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 $email = $_SESSION["email"];
 
+
+
+
+
+try {
+    $stmt = $conn->prepare("SELECT * FROM users");
+    $stmt->execute();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Chyba databázy: " . $e->getMessage();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -94,6 +106,71 @@ $email = $_SESSION["email"];
     </div>
 </nav>
 
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Email</th>
+        <th>Admin</th>
+        <th>Akcie</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($users as $user): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($user['email']); ?></td>
+            <td><?php echo $user['is_admin'] ? 'Áno' : 'Nie'; ?></td>
+            <td>
+                <a href="database_services/edit_user.php?email=<?php echo $user['email']; ?>" class="btn btn-primary">Upraviť</a>
+                <a href="database_services/delete_user.php?email=<?php echo $user['email']; ?>" class="btn btn-danger">Odstrániť</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<button type="submit" class="btn btn-success" onclick="location.href='database_services/add_user.php';"><?php echo $lang['add_user']; ?></button>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const message = urlParams.get('message');
+
+        if (status === 'success_deleted') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Úspech!',
+                text: 'Používateľ bol úspešne vymazaný.'
+            });
+        } else if (status === 'success_added') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Úspech!',
+                text: 'Používateľ bol úspešne vytvorený.'
+            });
+        }
+        else if (status === 'success_edited') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Úspech!',
+                text: 'Používateľ bol úspešne upravený.'
+            });
+        }
+
+        else if (status === 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Nepodarilo sa vymazať používateľa: ' + decodeURIComponent(message)
+            });
+        }
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

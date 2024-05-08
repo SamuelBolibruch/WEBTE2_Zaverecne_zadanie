@@ -5,6 +5,7 @@ return [
     'username' => 'Meno používateľa:',
     'user' => 'Používateľ',
     'password' => 'Heslo:',
+    'set_password' => 'Nastaviť Heslo:',
     'submit' => 'Prihlásiť sa',
     'register' => 'Registrovať sa',
     'registration' => 'Registrácia',
@@ -64,6 +65,8 @@ return [
     'create_in_name' => 'Vytvoriť v mene:',
     'manage_users' => 'Spravovať',
     'managing_users' => 'Spravovanie užívateľov',
+    'edit_user' => 'Upraviť používateľa',
+    'add_user' => 'Pridať používateľa',
 ];
 
 ?>

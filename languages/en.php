@@ -5,6 +5,7 @@ return [
     'username' => 'Username:',
     'user' => 'User',
     'password' => 'Password:',
+    'set_password' => 'Set Password:',
     'submit' => 'Sign in',
     'register' => 'Register',
     'registration' => 'Registration',
@@ -64,6 +65,8 @@ return [
     'create_in_name' => 'Create in name:',
     'manage_users' => 'Manage',
     'managing_users' => 'Managing users',
+    'edit_user' => 'Edit user',
+    'add_user' => 'Add user',
 ];
 
 
