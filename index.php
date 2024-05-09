@@ -20,8 +20,10 @@ $lang = require 'languages/' . $_SESSION['lang'] . '.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><?php echo $lang['main_page']; ?></title>
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
@@ -46,8 +48,14 @@ $lang = require 'languages/' . $_SESSION['lang'] . '.php';
 
     <input type="submit" value="<?php echo $lang['submit']; ?>">
     <a href="registration.php" class="registration-link"><?php echo $lang['register']; ?></a>
+</form>
 
+<br><br>
 
+<form id="codeForm" style="text-align: center">
+    <label for="codeInput"><?php echo $lang['enter_code_question']; ?></label>
+    <input type="text" id="codeInput" name="code" required>
+    <button type="submit" class="btn btn-success"><?php echo $lang['show_question']; ?></button>
 </form>
 
 <?php
@@ -110,25 +118,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const status = urlParams.get('status');
         const message = urlParams.get('message');
 
-        if( status === 'password_error'){
+        if (status === 'password_error') {
             Swal.fire({
                 icon: 'error',
                 title: 'Chyba!',
                 text: 'Heslá sa nezhodujú'
             });
-        } else if( status === 'user_not_exists') {
+        } else if (status === 'user_not_exists') {
             Swal.fire({
                 icon: 'error',
                 title: 'Chyba!',
                 text: 'Používateľ neexistuje'
             });
-        } else if( status === 'error'){
-            Swal.fire({
-                icon: 'error',
-                title: 'Chyba!',
-                text: 'Nastala chyba pri vytváraní nového používateľa.'
-            });
-        }else if( status === 'not_admin'){
+        } else if (status === 'not_admin') {
             Swal.fire({
                 icon: 'error',
                 title: 'Chyba!',
@@ -137,6 +139,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     });
 </script>
+
+<script src="scripts/show_question.js"></script>
 
 </body>
 
