@@ -7,6 +7,8 @@ return [
     'password' => 'Password:',
     'set_password' => 'Set Password:',
     'submit' => 'Sign in',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
     'register' => 'Register',
     'registration' => 'Registration',
     'email' => 'Email:',

@@ -20,8 +20,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +33,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/change_password.css">
     <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/main_page.css">
 </head>
 
 <body>
@@ -84,28 +83,118 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     </div>
 </nav>
 
+<div class="container">
 
-<form method="post" action="save_user.php">
-    <input type="hidden" name="id" value="<?php echo $user_id; ?>">
-    <div class="form-group">
-        <label>Email</label>
-        <input type="email" name="email" required class="form-control">
-    </div>
-    <div class="form-group">
-        <label>Heslo</label>
-        <input type="password" name="password" class="form-control">
-    </div>
-    <div class="form-group">
-        <label>Role</label>
-        <input type="text" name="role" required class="form-control">
-    </div>
-    <div class="form-group">
-        <label>Admin</label>
-        <input type="checkbox" name="is_admin" value="1">
-    </div>
-    <button type="submit" class="btn btn-success">Uložiť</button>
-</form>
+    <h2><?php echo $lang['add_user']; ?></h2>
+    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+        <div class="form-group">
+            <label for="email"><?php echo $lang['email']; ?></label>
+            <input type="email" name="email" id="email" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="password"><?php echo $lang['password']; ?></label>
+            <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+        <label for="confirm_password"><?php echo $lang['confirm_password']; ?></label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+        <div class="form-group">
+            <label for="is_admin"><?php echo $lang['admin']; ?></label>
+            <input type="checkbox" name="is_admin" id="is_admin" value="1">
+        </div>
+        <button type="submit" class="btn btn-success"><?php echo $lang['add_user']; ?></button>
+    </form>
+</div>
 
+
+<?php
+require_once '../config.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Získanie hodnôt z formulára
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $confirmed_password = $_POST["confirm_password"];
+    $is_admin = isset($_POST['is_admin']) ? 1 : 0;
+
+    if ($password == $confirmed_password) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+// Dotaz na overenie existencie používateľa s daným emailom v databáze
+        $check_email_query = "SELECT * FROM users WHERE email=:email";
+
+// Príprava a vykonanie dotazu s použitím PDO
+        $stmt = $conn->prepare($check_email_query);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+// Počet riadkov vrátených dotazom
+        $num_rows = $stmt->rowCount();
+
+// Ak bol nájdený používateľ s daným emailom
+        if ($num_rows > 0) {
+            header("location: add_user.php?status=user_exists");
+        } else {
+            // Príprava dotazu na vloženie nového záznamu
+            $insert_user_query = "INSERT INTO users (email, password, is_admin) VALUES (:email, :password,:is_admin)";
+
+            // Príprava a vykonanie dotazu na vloženie nového používateľa s použitím PDO
+            $stmt = $conn->prepare($insert_user_query);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $hashed_password);
+            $stmt->bindParam(':is_admin', $is_admin);
+
+            // Vykonanie dotazu
+            if ($stmt->execute()) {
+                header("location: add_user.php?status=success");
+            } else {
+                header("location: add_user.php?status=error");
+            }
+        }
+    } else {
+        header("location: add_user.php?status=password_error");
+    }
+
+}
+
+
+?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const message = urlParams.get('message');
+
+        if (status === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Úspech!',
+                text: 'Používateľ bol úspešne vytvorený.'
+            });
+        } else if( status === 'password_error'){
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Heslá sa nezhodujú'
+            });
+        } else if( status === 'user_exists') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Používateľ už existuje'
+            });
+        } else if( status === 'error'){
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Nastala chyba pri vytváraní nového používateľa.'
+            });
+        }
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

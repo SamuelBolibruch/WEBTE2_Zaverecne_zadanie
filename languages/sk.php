@@ -7,6 +7,8 @@ return [
     'password' => 'Heslo:',
     'set_password' => 'Nastaviť Heslo:',
     'submit' => 'Prihlásiť sa',
+    'edit' => 'Upraviť',
+    'delete' => 'Odstrániť',
     'register' => 'Registrovať sa',
     'registration' => 'Registrácia',
     'email' => 'Email:',

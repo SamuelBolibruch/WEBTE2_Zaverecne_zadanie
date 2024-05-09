@@ -62,43 +62,86 @@ $lang = require 'languages/' . $_SESSION['lang'] . '.php';
         // Získanie hodnôt z formulára
         $email = $_POST["email"];
         $password = $_POST["password"];
+        $confirmed_password = $_POST["confirm_password"];
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Dotaz na overenie existencie používateľa s daným emailom v databáze
-        $check_email_query = "SELECT * FROM users WHERE email=:email";
+        if($password == $confirmed_password){
+            // Dotaz na overenie existencie používateľa s daným emailom v databáze
+            $check_email_query = "SELECT * FROM users WHERE email=:email";
 
-        // Príprava a vykonanie dotazu s použitím PDO
-        $stmt = $conn->prepare($check_email_query);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-
-        // Počet riadkov vrátených dotazom
-        $num_rows = $stmt->rowCount();
-
-        // Ak bol nájdený používateľ s daným emailom
-        if ($num_rows > 0) {
-            echo "Používateľ s týmto emailom už existuje.";
-        } else {
-            // Príprava dotazu na vloženie nového záznamu
-            $insert_user_query = "INSERT INTO users (email, password) VALUES (:email, :password)";
-
-            // Príprava a vykonanie dotazu na vloženie nového používateľa s použitím PDO
-            $stmt = $conn->prepare($insert_user_query);
+            // Príprava a vykonanie dotazu s použitím PDO
+            $stmt = $conn->prepare($check_email_query);
             $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':password', $hashed_password);
+            $stmt->execute();
 
-            // Vykonanie dotazu
-            if ($stmt->execute()) {
-                echo "Nový používateľ bol úspešne vytvorený.";
-                $_SESSION["loggedin"] = true;
-                $_SESSION["email"] = $email;
-                header("location: main_page.php");
+            // Počet riadkov vrátených dotazom
+            $num_rows = $stmt->rowCount();
+
+            // Ak bol nájdený používateľ s daným emailom
+            if ($num_rows > 0) {
+                header("location: registration.php?status=user_exists");
             } else {
-                echo "Nastala chyba pri vytváraní nového používateľa.";
+                // Príprava dotazu na vloženie nového záznamu
+                $insert_user_query = "INSERT INTO users (email, password) VALUES (:email, :password)";
+
+                // Príprava a vykonanie dotazu na vloženie nového používateľa s použitím PDO
+                $stmt = $conn->prepare($insert_user_query);
+                $stmt->bindParam(':email', $email);
+                $stmt->bindParam(':password', $hashed_password);
+
+                // Vykonanie dotazu
+                if ($stmt->execute()) {
+                    $_SESSION["loggedin"] = true;
+                    $_SESSION["email"] = $email;
+                    header("location: main_page.php");
+                } else {
+                    header("location: registration.php?status=error");
+                }
             }
         }
+        else{
+            header("location: registration.php?status=password_error");
+        }
+
+
     }
     ?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const message = urlParams.get('message');
+
+        if (status === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Úspech!',
+                text: 'Používateľ bol úspešne vytvorený.'
+            });
+        } else if( status === 'password_error'){
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Heslá sa nezhodujú'
+            });
+        } else if( status === 'user_exists') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Používateľ už existuje'
+            });
+        } else if( status === 'error'){
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Nastala chyba pri vytváraní nového používateľa.'
+            });
+        }
+    });
+</script>
 
     <script src='scripts/registration.js'></script>
 </body>

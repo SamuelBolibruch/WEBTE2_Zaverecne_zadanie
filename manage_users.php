@@ -21,9 +21,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 $email = $_SESSION["email"];
 
 
-
-
-
 try {
     $stmt = $conn->prepare("SELECT * FROM users");
     $stmt->execute();
@@ -45,11 +42,11 @@ try {
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/change_password.css">
     <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/main_page.css">
 </head>
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
 
 
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
@@ -59,8 +56,10 @@ try {
     </button>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-            <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a> ./.
-            <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN" style="height: 20px; width: 30px"></a>
+            <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a>
+            ./.
+            <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN"
+                                    style="height: 20px; width: 30px"></a>
             <li class="nav-item">
                 <a class="nav-link" href="main_page.php"><?php echo $lang['questions']; ?><span class="sr-only">(current)</span></a>
             </li>
@@ -107,6 +106,7 @@ try {
 </nav>
 
 
+
 <table class="table">
     <thead>
     <tr>
@@ -121,22 +121,26 @@ try {
             <td><?php echo htmlspecialchars($user['email']); ?></td>
             <td><?php echo $user['is_admin'] ? 'Áno' : 'Nie'; ?></td>
             <td>
-                <a href="database_services/edit_user.php?email=<?php echo $user['email']; ?>" class="btn btn-primary">Upraviť</a>
-                <a href="database_services/delete_user.php?email=<?php echo $user['email']; ?>" class="btn btn-danger">Odstrániť</a>
+                <a href="database_services/edit_user.php?email=<?php echo $user['email']; ?>" class="btn btn-primary"><?php echo $lang['edit']; ?></a>
+                <a href="database_services/delete_user.php?email=<?php echo $user['email']; ?>" class="btn btn-danger"><?php echo $lang['delete']; ?></a>
             </td>
         </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
 
-<button type="submit" class="btn btn-success" onclick="location.href='database_services/add_user.php';"><?php echo $lang['add_user']; ?></button>
+<br><br>
 
+<div class="centered-items">
+    <button type="submit" class="btn btn-success"
+            onclick="location.href='database_services/add_user.php';"><?php echo $lang['add_user']; ?></button>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
         const message = urlParams.get('message');
@@ -153,16 +157,13 @@ try {
                 title: 'Úspech!',
                 text: 'Používateľ bol úspešne vytvorený.'
             });
-        }
-        else if (status === 'success_edited') {
+        } else if (status === 'success_edited') {
             Swal.fire({
                 icon: 'success',
                 title: 'Úspech!',
                 text: 'Používateľ bol úspešne upravený.'
             });
-        }
-
-        else if (status === 'error') {
+        } else if (status === 'error') {
             Swal.fire({
                 icon: 'error',
                 title: 'Chyba!',
