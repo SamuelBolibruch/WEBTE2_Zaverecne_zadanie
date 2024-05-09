@@ -101,10 +101,11 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
         <option value="2"><?php echo $lang['open_ended_question']; ?></option>
     </select>
 
-
     <label for="userEmail"><?php echo $lang['create_in_name']; ?></label>
     <select id="userEmail" name="userEmail" required>
         <?php
+
+
         require_once 'config.php';
 
         if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
@@ -116,29 +117,10 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
         } else {
             echo "<option value='{$email}'>{$email}</option>";  // Len sám seba, ak nie je admin
         }
+
+
         ?>
     </select> <br>
-
-
-    <?php
-
-    /*
-    require_once 'config.php';
-
-    if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
-        echo '<label for="userEmail">' . $lang['create_in_name'] . '</label>
-      <select id="userEmail" name="userEmail" required>';
-
-        // Získajte zoznam všetkých používateľov z databázy
-        $users = $conn->query("SELECT email FROM users")->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($users as $user) {
-            echo "<option value='{$user['email']}'>{$user['email']}</option>";
-        }
-        echo '</select> <br>';
-    }
-
-    */
-    ?>
 
 
     <div id="answerQuestionContainer" class="choose-answer-question-container add-question-container">
@@ -191,6 +173,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
 
     <div id="openQuestionContainer" class="open-question-container add-question-container">
         <form id="openQuestionForm">
+
             <!-- Vstup pre otázku -->
             <label for="question" class='bold'><?php echo $lang['question']; ?></label>
             <input type="text" id="question" name="question" required>

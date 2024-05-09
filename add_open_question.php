@@ -57,8 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isOpen = $_POST["isOpen"];
     $answerDisplay = $_POST["answerDisplay"];
 
-    // Získanie emailu zo session
-    $email = $_SESSION["email"];
+    $email = $_POST["userEmail"];
 
     try {
         do {

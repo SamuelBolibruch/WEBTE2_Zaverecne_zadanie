@@ -159,6 +159,7 @@ document.getElementById("openQuestionForm").addEventListener("submit", function 
     document.getElementById('creationDate').value = formattedDate;
     // Získať dáta z formulára
     var formData = new FormData(this);
+    formData.append('userEmail', document.getElementById('userEmail').value);  // Pridanie emailu vybraného používateľa
 
     // Odošlite dáta na server pomocou POST requestu
     var xhr = new XMLHttpRequest();

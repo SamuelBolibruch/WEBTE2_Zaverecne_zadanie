@@ -20,10 +20,9 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
-    
-    // Získanie emailu prihláseného používateľa
-    $email = $_SESSION["email"];
-    
+
+    $email = $_GET['email'];
+
     // Získanie id z parametra
     $questionId = $_GET['id'];
 

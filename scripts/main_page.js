@@ -130,11 +130,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (result.isConfirmed) {
 
                             var questionId = question.id;
+                            var user_email = question.user_email;
                                             
                             var xhr = new XMLHttpRequest();
-                        
-                            xhr.open("DELETE", "database_services/delete_question.php?id=" + questionId, true);
-                        
+
+                            xhr.open("DELETE", "database_services/delete_question.php?id=" + questionId + "&email=" + encodeURIComponent(user_email), true);
+
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState === 4 && xhr.status === 200) {
                                     // Spracovať odpoveď zo servera
