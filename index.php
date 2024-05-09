@@ -31,64 +31,112 @@ $lang = require 'languages/' . $_SESSION['lang'] . '.php';
 </header>
 
 
-    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
-        <h2><?php echo $lang['login']; ?></h2>
-        <label for="email"><?php echo $lang['username']; ?></label>
-        <input type="text" id="email" name="email" required>
-        <label for="password"><?php echo $lang['password']; ?></label>
-        <input type="password" id="password" name="password" required>
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+    <h2><?php echo $lang['login']; ?></h2>
+    <label for="email"><?php echo $lang['username']; ?></label>
+    <input type="text" id="email" name="email" required>
+    <label for="password"><?php echo $lang['password']; ?></label>
+    <input type="password" id="password" name="password" required>
 
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" name="admin_login" id="admin_login"> <?php echo $lang['login_as_admin']; ?>
-            </label>
-        </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="admin_login" id="admin_login" value="1"> <?php echo $lang['login_as_admin']; ?>
+        </label>
+    </div>
 
-        <input type="submit" value="<?php echo $lang['submit']; ?>">
-        <a href="registration.php" class="registration-link"><?php echo $lang['register']; ?></a>
+    <input type="submit" value="<?php echo $lang['submit']; ?>">
+    <a href="registration.php" class="registration-link"><?php echo $lang['register']; ?></a>
 
 
-    </form>
+</form>
 
-    <?php
-    
-    require_once 'config.php';
+<?php
 
-    if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-        header("location: main_page.php");
-        exit;
-    }
+require_once 'config.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-        $admin_login = isset($_POST['admin_login']);  // Kontrola, či bol začiarknutý checkbox
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    header("location: main_page.php");
+    exit;
+}
 
-        $user_query = "SELECT * FROM users WHERE email = :email";
-        $stmt = $conn->prepare($user_query);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    //$admin_login = isset($_POST['admin_login']);  // Kontrola, či bol začiarknutý checkbox
+    $admin_login = isset($_POST['admin_login']) ? 1 : 0;
 
-        if ($user) {
-            if (password_verify($password, $user['password'])) {
-                if ($admin_login && !$user['is_admin']) {
-                    echo "Nemáte oprávnenia na prihlásenie ako administrátor.";
-                } else {
-                    $_SESSION["loggedin"] = true;
-                    $_SESSION["email"] = $email;
-                    $_SESSION["is_admin"] = $user['is_admin'];  // Uloženie informácie o admin právach do session
-                    header("location: main_page.php");
-                }
+    $user_query = "SELECT * FROM users WHERE email = :email";
+    $stmt = $conn->prepare($user_query);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        if (password_verify($password, $user['password'])) {
+
+            if ($admin_login && $user['is_admin']) {
+                $_SESSION["is_admin"] = 1;
+
+                $_SESSION["loggedin"] = true;
+                $_SESSION["email"] = $email;
+                header("location: main_page.php");
+                exit;
+            } else if ($admin_login && !$user['is_admin']) {
+                header("location: index.php?status=not_admin");
             } else {
-                echo "Zadané údaje nie sú správne.";
-            }
-        } else {
-            echo "Používateľ s daným emailom nebol nájdený.";
-        }
-    }
+                $_SESSION["is_admin"] = 0;
 
-    ?>
+                $_SESSION["loggedin"] = true;
+                $_SESSION["email"] = $email;
+                header("location: main_page.php");
+                exit;
+            }
+
+        } else {
+            header("location: index.php?status=password_error");
+        }
+    } else {
+        header("location: index.php?status=user_not_exists");
+    }
+}
+
+?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const message = urlParams.get('message');
+
+        if( status === 'password_error'){
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Heslá sa nezhodujú'
+            });
+        } else if( status === 'user_not_exists') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Používateľ neexistuje'
+            });
+        } else if( status === 'error'){
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Nastala chyba pri vytváraní nového používateľa.'
+            });
+        }else if( status === 'not_admin'){
+            Swal.fire({
+                icon: 'error',
+                title: 'Chyba!',
+                text: 'Používateľ nie je admin'
+            });
+        }
+    });
+</script>
 
 </body>
 
