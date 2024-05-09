@@ -2,6 +2,7 @@
 
 return [
     'login' => 'Login',
+    'main_page' => 'Main page',
     'username' => 'Username:',
     'user' => 'User',
     'password' => 'Password:',
@@ -13,6 +14,7 @@ return [
     'registration' => 'Registration',
     'email' => 'Email:',
     'answers' => 'Answers:',
+    'answer' => 'Answer',
     'option' => 'Option:',
     'confirm_password' => 'Confirm Password:',
     'back_to_login' => 'Back to login',
@@ -69,6 +71,8 @@ return [
     'managing_users' => 'Managing users',
     'edit_user' => 'Edit user',
     'add_user' => 'Add user',
+    'enter_code_question' => 'Enter code of question:',
+    'show_question' => 'Show question',
 ];
 
 

@@ -2,6 +2,15 @@
 
 require_once 'config.php';
 
+if (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = 'sk'; // Predvolený jazyk
+}
+
+if (isset($_GET['lang'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+}
+
+$lang = require 'languages/' . $_SESSION['lang'] . '.php';
 
 // Kontrola prítomnosti parametra v URL adrese
 if (isset($_GET['parameter'])) {
@@ -45,7 +54,7 @@ if (isset($_GET['parameter'])) {
 <html>
 
 <head>
-    <title>Odpoveď</title>
+    <title><?php echo $lang['answer']; ?></title>
 </head>
 
 <body>

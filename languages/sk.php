@@ -4,6 +4,7 @@ return [
     'login' => 'Prihlásenie',
     'username' => 'Meno používateľa:',
     'user' => 'Používateľ',
+    'main_page' => 'Hlavná stránka',
     'password' => 'Heslo:',
     'set_password' => 'Nastaviť Heslo:',
     'submit' => 'Prihlásiť sa',
@@ -13,6 +14,7 @@ return [
     'registration' => 'Registrácia',
     'email' => 'Email:',
     'answers' => 'Odpovede:',
+    'answer' => 'Odpoveď',
     'option' => 'Možnosť:',
     'confirm_password' => 'Potvrdenie hesla:',
     'back_to_login' => 'Späť na prihlásenie',
@@ -69,6 +71,8 @@ return [
     'managing_users' => 'Spravovanie užívateľov',
     'edit_user' => 'Upraviť používateľa',
     'add_user' => 'Pridať používateľa',
+    'enter_code_question' => 'Zadajte kód otázky:',
+    'show_question' => 'Zobraz otázku',
 ];
 
 ?>
