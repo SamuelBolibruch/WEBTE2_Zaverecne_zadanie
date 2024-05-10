@@ -12,6 +12,12 @@ if (isset($_GET['lang'])) {
 
 $lang = require 'languages/' . $_SESSION['lang'] . '.php';
 
+// Skontrolujte, či užívateľ je prihlásený
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: index.php");
+    exit;
+}
+
 function getFontSize($count, $maxCount) {
     $minFontSize = 12;
     $maxFontSize = 48;
