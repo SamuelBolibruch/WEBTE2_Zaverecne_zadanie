@@ -18,15 +18,16 @@ function getFontSize($count, $maxCount) {
     if ($maxCount == 0) {
         return $minFontSize;
     }
-    $size = ($count / $maxCount) * ($maxCount - $minFontSize) + $minFontSize;
+    $size = ($count / $maxCount) * ($maxFontSize - $minFontSize) + $minFontSize;
     return round($size);
 }
 
 function getArchivedResults($conn, $question_id) {
     $stmt = $conn->prepare("
-        SELECT question_id, answer, count, YEAR(created_at) as year 
+        SELECT question_id, answer, count, note, created_at 
         FROM answers_archive 
         WHERE question_id = :question_id
+        ORDER BY created_at DESC
     ");
     $stmt->bindParam(':question_id', $question_id, PDO::PARAM_STR);
     $stmt->execute();
@@ -34,6 +35,8 @@ function getArchivedResults($conn, $question_id) {
 }
 
 function displayResults($conn, $question) {
+    global $lang;
+
     $question_id = $question['id'];
     $question_text = htmlspecialchars($question['question']);
     $question_type = $question['question_type'];
@@ -55,13 +58,14 @@ function displayResults($conn, $question) {
         $maxCount = max(array_column($results, 'count'));
 
         if ($answers_display == 'wordCloud') {
+            echo "<br><h3>" . $lang['current_results'] . "</h3>";
             echo "<div id='wordCloudView' class='word-cloud'>";
             foreach ($results as $result) {
                 $fontSize = getFontSize($result['count'], $maxCount);
                 $correctStyle = isset($result['is_right']) && $result['is_right'] === 'true' ? 'color: green;' : '';
                 echo "<span style='font-size: {$fontSize}px; {$correctStyle}'>" . htmlspecialchars($result['answer']) . "</span> ";
             }
-            echo "</div>";
+            echo "</div><br><br>";
         } else { // default to list
             echo "<div id='listView' class='results'>";
             echo "<h3>" . $lang['current_results'] . "</h3>";
@@ -71,7 +75,7 @@ function displayResults($conn, $question) {
                 echo "<li class='{$correctClass}'><span>" . htmlspecialchars($result['answer']) . "</span> " . htmlspecialchars($result['count']) . "</li>";
             }
             echo "</ul>";
-            echo "</div>";
+            echo "</div><br><br>";
         }
     } else {
         echo "<p>" . $lang['no_answers'] . ": $question_id</p>";
@@ -81,14 +85,29 @@ function displayResults($conn, $question) {
     $archivedResults = getArchivedResults($conn, $question_id);
     if ($archivedResults) {
         echo "<h3>" . $lang['historical_results'] . "</h3>";
-        echo "<table class='table'>";
-        echo "<thead><tr><th>" . $lang['year'] . "</th><th>" . $lang['answer'] . "</th><th>" . $lang['count'] . "</th></tr></thead>";
-        echo "<tbody>";
+
+        $groupedResults = [];
         foreach ($archivedResults as $archived) {
-            echo "<tr><td>{$archived['year']}</td><td>" . htmlspecialchars($archived['answer']) . "</td><td>{$archived['count']}</td></tr>";
+            $dateKey = date('Y-m-d H:i:s', strtotime($archived['created_at']));
+            if (!isset($groupedResults[$dateKey])) {
+                $groupedResults[$dateKey] = [];
+            }
+            $groupedResults[$dateKey][] = $archived;
         }
-        echo "</tbody>";
-        echo "</table>";
+
+        foreach ($groupedResults as $date => $results) {
+            $totalCount = array_sum(array_column($results, 'count'));
+            echo "<div class='historical-record'>";
+            echo "<h4>{$date}</h4>";
+            echo "<ul class='historical-list'>";
+            foreach ($results as $result) {
+                $percentage = ($totalCount > 0) ? round(($result['count'] / $totalCount) * 100, 2) : 0;
+                $note = !empty($result['note']) ? htmlspecialchars($result['note']) : $lang['no_note'];
+                echo "<li>" . htmlspecialchars($result['answer']) . " - {$percentage}% ({$result['count']})<br><small> {$note}</small></li>";
+            }
+            echo "</ul>";
+            echo "</div><br><br><br>";
+        }
     } else {
         echo "<p>" . $lang['no_historical_data'] . "</p>";
     }
@@ -103,7 +122,6 @@ try {
     http_response_code(500);
     echo "<p>" . $lang['database_error'] . $e->getMessage() . "</p>";
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -113,16 +131,71 @@ try {
     <title><?php echo $lang['results']; ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="../WEBTE2_Zaverecne_zadanie/css/result_page.css">
+    <link rel="stylesheet" href="../WEBTE2_Zaverecne_zadanie/css/show_results.css">
 </head>
 <body>
-<header>
-    <a href="?lang=sk&question_id=<?php echo $question_id; ?>"><img src="../WEBTE2_Zaverecne_zadanie/images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 40px"></a> /
-    <a href="?lang=en&question_id=<?php echo $question_id; ?>"><img src="../WEBTE2_Zaverecne_zadanie/images/Flag_of_the_United_Kingdom.png" alt="EN" style="height: 20px; width: 40px"></a>
-</header>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a>
+            <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN"
+                                    style="height: 20px; width: 30px"></a>
+
+            <li class="nav-item">
+                <a class="nav-link" href="main_page.php"><?php echo $lang['questions']; ?><span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="create_question.php"><?php echo $lang['create_question']; ?></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><?php echo $lang['pricing']; ?></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#"><?php echo $lang['disabled']; ?></a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <div class="nav-link"><?php echo $email; ?></div> <!-- Zobrazenie emailu -->
+            </li>
+            <li class="nav-item">
+                <div class="nav-link">
+                    <?php
+                    if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]) {
+                        echo "(Admin)";
+                    }
+                    ?>
+                </div>
+            </li>
+
+
+    </div>
+</
+<?php
+if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"]) {
+    echo '<li class="nav-item">
+            <a class="nav-link" href="manage_users.php">' . $lang['manage_users'] . '</a>
+          </li>';
+}
+?>
+
+<li class="nav-item">
+    <a class="nav-link" href="change_password.php"><?php echo $lang['change_password']; ?></a>
+</li>
+<li class="nav-item">
+    <a class="btn btn-danger" href="logout.php"><?php echo $lang['logout']; ?></a>
+</li>
+</ul>
+</div>
+</nav>
+
 <div class="container">
     <h1><?php echo $lang['results']; ?></h1>
-    <a href="backup.php" class="btn btn-warning">Run Backup</a>
 
     <?php
     if (!empty($questions)) {

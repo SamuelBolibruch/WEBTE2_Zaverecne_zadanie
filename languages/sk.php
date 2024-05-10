@@ -81,7 +81,11 @@ return [
     'listview' => 'Zobrazenie zoznamu',
     'word_cloud_view' => 'Zobrazenie Word Cloud',
     'close_voting' => 'Uzatvoriť hlasovanie',
-    'show_results' => 'Zobraz výsledky'
+    'show_results' => 'Zobraz výsledky',
+    'percentage' => 'V percentách',
+    'archived_questions' => 'Archivovaná otázka',
+    'historical_results' => 'Historické výsledky',
+    'current_results' => 'Aktuálne výsledky',
 ];
 
 ?>

@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         echo "Záznam bol úspešne vložený do databázy.";
 
-        $stmt = $conn->prepare("INSERT INTO defined_answers (answer, answer_to_question, is_right) VALUES (:answer, :questionID, :isRight)");
+        $stmt = $conn->prepare("INSERT INTO defined_answers (answer, answer_to_question, is_right, count) VALUES (:answer, :questionID, :isRight, 0)");
 
         // Pro každou odpověď vytvořte záznam
         for ($i = 1; $i <= $numOfAnswers; $i++) {

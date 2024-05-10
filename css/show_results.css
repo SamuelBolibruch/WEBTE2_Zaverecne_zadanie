@@ -62,6 +62,29 @@ a:hover {
 .word-cloud span.correct {
     color: #155724;
 }
+.historical-record {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #c3e6cb;
+}
+.historical-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.historical-list li {
+    background-color: #fff;
+    margin: 5px 0;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+}
+.historical-list li:nth-child(odd) {
+    background-color: #f9f9f9;
+}
 header {
     margin-bottom: 20px;
 }
@@ -80,15 +103,18 @@ header {
 .view-toggle button.active {
     background-color: #0056b3;
 }
-
 .navbar-nav {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
     padding-left: 0;
     margin-bottom: 0;
+
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    padding-left: 0;
+
     list-style: none;
 }

@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 var cell9 = row.insertCell(8); // New cell for close voting
                 var closeButton = document.createElement('button');
-                closeButton.textContent = 'Close Voting';
+                closeButton.textContent = 'close';
                 closeButton.addEventListener('click', function() {
                     Swal.fire({
                         title: 'Naozaj chcete uzatvoriť hlasovanie na túto otázku?',

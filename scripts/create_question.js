@@ -1,5 +1,6 @@
 // Získať selectbox
 var selectBox = document.getElementById('questionType');
+selectBox.value = '1';
 const messageField = document.getElementById('message');
 const messageDiv = document.getElementById('message-div');
 // Získať oba divy

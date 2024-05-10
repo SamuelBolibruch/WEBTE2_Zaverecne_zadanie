@@ -81,7 +81,10 @@ return [
     'listview' => 'List View',
     'word_cloud_view' => 'Word Cloud View',
     'close_voting' => 'Close Voting',
-    'show_results' => 'Show Results'
+    'show_results' => 'Show Results',
+    'percentage' => 'Percentage',
+    'historical_results' => 'Historical results',
+    'current_results' => 'Current results',
 ];
 
 

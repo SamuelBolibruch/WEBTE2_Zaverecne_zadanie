@@ -97,7 +97,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
 <div class="container">
     <!-- Selectbox -->
     <select class="custom-select" id="questionType" name="questionType">
-        <option value="1"><?php echo $lang['question_with_correct_answer']; ?></option>
+        <option value="1" ><?php echo $lang['question_with_correct_answer']; ?></option>
         <option value="2"><?php echo $lang['open_ended_question']; ?></option>
     </select>
 
@@ -193,7 +193,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
                 <div class='bold'><?php echo $lang['display_answers']; ?></div>
 
                 <div class="item">
-                    <input type="radio" id="list" name="answerDisplay" value="list" required>
+                    <input type="radio" id="list" name="answerDisplay" value="list" required checked>
                     <label for="list"><?php echo $lang['list_items']; ?></label>
                 </div>
 
