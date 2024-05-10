@@ -86,6 +86,7 @@ function getFontSize($count, $maxCount) {
 </header>
 <div class="container">
     <h1><?php echo $lang['results']; ?></h1>
+
     <?php if (!empty($question_text)): ?>
         <h2><?php echo $lang['question']; ?>: <?php echo htmlspecialchars($question_text); ?></h2>
     <?php endif; ?>
