@@ -8,7 +8,7 @@ return [
     'password' => 'Password:',
     'set_password' => 'Set Password:',
     'submit' => 'Submit',
-    'singIn' => 'Sign In',
+    'signIn' => 'Sign In',
     'edit' => 'Edit',
     'delete' => 'Delete',
     'register' => 'Register',
@@ -79,7 +79,9 @@ return [
     'no_questions' => 'No questions found for ID',
     'no_answers' => 'No answers found for Question ID',
     'listview' => 'List View',
-    'word_cloud_view' => 'Word Cloud View'
+    'word_cloud_view' => 'Word Cloud View',
+    'close_voting' => 'Close Voting',
+    'show_results' => 'Show Results'
 ];
 
 

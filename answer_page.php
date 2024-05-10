@@ -67,7 +67,7 @@ if (!empty($question_id)) {
                     <option value=""><?php echo $lang['select_option']; ?></option>
                     <?php
                     try {
-                        $stmt = $conn->prepare("SELECT answer FROM defined_answers WHERE answer_to_question = :question_id");
+                        $stmt = $conn->prepare("SELECT DISTINCT answer FROM defined_answers WHERE answer_to_question = :question_id");
                         $stmt->bindParam(':question_id', $question_id, PDO::PARAM_STR);
                         $stmt->execute();
                         $answers = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -85,7 +85,7 @@ if (!empty($question_id)) {
     <?php else: ?>
         <p><?php echo $lang['no_questions']; ?></p>
     <?php endif; ?>
-    <a href="index.php"><?php echo $lang['main_page']; ?></a>
+    <a href="../WEBTE2_Zaverecne_zadanie/index.php"><?php echo $lang['main_page']; ?></a>
 </div>
 </body>
 </html>

@@ -105,6 +105,9 @@ try {
                 <a class="nav-link" href="create_question.php"><?php echo $lang['create_question']; ?></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="show_results.php"><?php echo $lang['show_results']; ?></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#"><?php echo $lang['pricing']; ?></a>
             </li>
             <li class="nav-item">
@@ -179,6 +182,7 @@ try {
             <th><?php echo $lang['creation_date']; ?></th>
             <th><?php echo $lang['actions']; ?></th>
             <th><?php echo $lang['user']; ?></th>
+            <th><?php echo $lang['close_voting']; ?></th> <!-- New Column -->
         </tr>
         </thead>
         <tbody>

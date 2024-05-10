@@ -42,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "PUT") {
 
         // Ak chcete overiť, či bola aktualizácia úspešná, môžete vrátiť správu o úspechu
         echo json_encode(array("message" => "Stĺpec is_active bol úspešne aktualizovaný"));
+        $conn->commit();
 
     } catch(PDOException $e) {
         // Ak nastane chyba pri prístupe k databáze, vráť chybové hlásenie

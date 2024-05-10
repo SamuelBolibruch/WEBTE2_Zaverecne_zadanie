@@ -8,7 +8,7 @@ return [
     'password' => 'Heslo:',
     'set_password' => 'Nastaviť Heslo:',
     'submit' => 'Odoslať',
-    'singIn' => 'Prihlásiť sa',
+    'signIn' => 'Prihlásiť sa',
     'edit' => 'Upraviť',
     'delete' => 'Odstrániť',
     'register' => 'Registrovať sa',
@@ -79,7 +79,9 @@ return [
     'no_questions' => 'Žiadne otázky neboli nájdené pre ID',
     'no_answers' => 'Žiadne odpovede neboli nájdené pre Otázku ID',
     'listview' => 'Zobrazenie zoznamu',
-    'word_cloud_view' => 'Zobrazenie Word Cloud'
+    'word_cloud_view' => 'Zobrazenie Word Cloud',
+    'close_voting' => 'Uzatvoriť hlasovanie',
+    'show_results' => 'Zobraz výsledky'
 ];
 
 ?>

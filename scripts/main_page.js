@@ -74,26 +74,26 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Ak je potvrdené, vykonajte akciu
                             var questionId = question.id;
                             var questionState = checkbox.checked;
-                
+
                             // Vytvoriť požiadavku
                             var xhr = new XMLHttpRequest();
-                
+
                             // Nastaviť metódu a URL
                             xhr.open("PUT", "edit_question_active_state.php", true);
                             xhr.setRequestHeader("Content-Type", "application/json");
-                
+
                             xhr.onreadystatechange = function () {
                                 if (xhr.readyState === 4 && xhr.status === 200) {
                                     // Spracovať odpoveď zo servera
                                     console.log(xhr.responseText);
                                 }
                             };
-                
+
                             var data = {
                                 question_id: questionId,
                                 question_state: questionState
                             };
-                
+
                             var jsonData = JSON.stringify(data);
                             xhr.send(jsonData);
                         } else {
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     });
                 });
-                
+
 
                 cell3.appendChild(checkbox);
                 cell3.classList.add('center-align'); // Pridanie triedy pre zarovnanie na stred
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             var questionId = question.id;
                             var user_email = question.user_email;
-                                            
+
                             var xhr = new XMLHttpRequest();
 
                             xhr.open("DELETE", "database_services/delete_question.php?id=" + questionId + "&email=" + encodeURIComponent(user_email), true);
@@ -145,13 +145,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 }
                             };
-                        
-                            // Odošleme požiadavku 
+
+                            // Odošleme požiadavku
                             xhr.send();
                         }
                     });
                 });
-                
+
+                var cell9 = row.insertCell(8); // New cell for close voting
+                var closeButton = document.createElement('button');
+                closeButton.textContent = 'Close Voting';
+                closeButton.addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'Naozaj chcete uzatvoriť hlasovanie na túto otázku?',
+                        html: '<input type="text" id="note" class="swal2-input" placeholder="Poznámka">',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Áno, uzatvoriť!',
+                        cancelButtonText: 'Zrušiť',
+                        preConfirm: () => {
+                            var note = document.getElementById('note').value;
+                            if (!note) {
+                                Swal.showValidationMessage('Poznámka je povinná!');
+                                return false;
+                            }
+                            return { note: note };
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var questionId = question.id;
+                            var note = result.value.note;
+                            console.log("Question ID:", questionId);
+                            console.log("Note:", note);
+
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("POST", "../WEBTE2_Zaverecne_zadanie/close_voting.php", true);
+                            xhr.setRequestHeader("Content-Type", "application/json");
+                            xhr.onreadystatechange = function () {
+                                if (xhr.readyState === 4) {
+                                    console.log("Response Status:", xhr.status);
+                                    if (xhr.status === 200) {
+                                        console.log("Response:", xhr.responseText);
+                                        // Optional: Refresh table or update UI
+                                    } else {
+                                        console.error("Error:", xhr.responseText);
+                                    }
+                                }
+                            };
+                            var data = JSON.stringify({ question_id: questionId, note: note });
+                            console.log("Sending Data:", data);
+                            xhr.send(data);
+                        }
+                    });
+                });
+                cell9.appendChild(closeButton);
+
 
                 cell2.addEventListener('click', function () {
                     // Nastavenie textu pre questionCode a questionAdress
