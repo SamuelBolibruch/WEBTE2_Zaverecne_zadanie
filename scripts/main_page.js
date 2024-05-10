@@ -156,10 +156,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 cell2.addEventListener('click', function () {
                     // Nastavenie textu pre questionCode a questionAdress
                     questionCode.textContent = question.id;
-                    questionAdress.textContent = "https://node20.webte.fei.stuba.sk/" + question.id;
+                    questionAdress.textContent = "https://node104.webte.fei.stuba.sk/" + question.id;
                     questionQrCode.innerHTML = '';
                     var qrcode = new QRCode(questionQrCode, {
-                        text: "https://node20.webte.fei.stuba.sk/" + question.id,
+                        text: "https://node104.webte.fei.stuba.sk/" + question.id,
                         width: 280, // Šírka QR kódu (voliteľné)
                         height: 280 // Výška QR kódu (voliteľné)
                     });

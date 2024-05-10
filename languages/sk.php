@@ -7,7 +7,8 @@ return [
     'main_page' => 'Hlavná stránka',
     'password' => 'Heslo:',
     'set_password' => 'Nastaviť Heslo:',
-    'submit' => 'Prihlásiť sa',
+    'submit' => 'Odoslať',
+    'singIn' => 'Prihlásiť sa',
     'edit' => 'Upraviť',
     'delete' => 'Odstrániť',
     'register' => 'Registrovať sa',
@@ -73,6 +74,12 @@ return [
     'add_user' => 'Pridať používateľa',
     'enter_code_question' => 'Zadajte kód otázky:',
     'show_question' => 'Zobraz otázku',
+    'results' => 'Výsledky',
+    'results_for' => 'Výsledky pre Otázku ID',
+    'no_questions' => 'Žiadne otázky neboli nájdené pre ID',
+    'no_answers' => 'Žiadne odpovede neboli nájdené pre Otázku ID',
+    'listview' => 'Zobrazenie zoznamu',
+    'word_cloud_view' => 'Zobrazenie Word Cloud'
 ];
 
 ?>

@@ -7,7 +7,8 @@ return [
     'user' => 'User',
     'password' => 'Password:',
     'set_password' => 'Set Password:',
-    'submit' => 'Sign in',
+    'submit' => 'Submit',
+    'singIn' => 'Sign In',
     'edit' => 'Edit',
     'delete' => 'Delete',
     'register' => 'Register',
@@ -73,6 +74,12 @@ return [
     'add_user' => 'Add user',
     'enter_code_question' => 'Enter code of question:',
     'show_question' => 'Show question',
+    'results' => 'Results',
+    'results_for' => 'Results for Question ID',
+    'no_questions' => 'No questions found for ID',
+    'no_answers' => 'No answers found for Question ID',
+    'listview' => 'List View',
+    'word_cloud_view' => 'Word Cloud View'
 ];
 
 

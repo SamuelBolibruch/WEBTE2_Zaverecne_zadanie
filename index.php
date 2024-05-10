@@ -46,7 +46,7 @@ $lang = require 'languages/' . $_SESSION['lang'] . '.php';
         </label>
     </div>
 
-    <input type="submit" value="<?php echo $lang['submit']; ?>">
+    <input type="submit" value="<?php echo $lang['signIn']; ?>">
     <a href="registration.php" class="registration-link"><?php echo $lang['register']; ?></a>
 </form>
 
