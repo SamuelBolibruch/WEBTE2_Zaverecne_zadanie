@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "xsefcik";
-$password = "totojenajlepsieheslo1";
-$database = "zaverecne_zadanie";
+$username = "xpuvak";
+$password = "valent142";
+$database = "zavecerne_zadanie";
 
 try {
     // Pripojenie k databáze pomocou PDO

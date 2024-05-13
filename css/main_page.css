@@ -59,9 +59,13 @@
     text-align: center;
 }
 
-.remove-image {
+.remove-image, .copy-image  {
     width: 1.3rem;
     height: 1.3rem;
+}
+.edit-image{
+    width: 2.7rem;
+    height: 2.7rem;
 }
 
 /* Zarovnanie textu na stred pre všetky <th> a <td> */

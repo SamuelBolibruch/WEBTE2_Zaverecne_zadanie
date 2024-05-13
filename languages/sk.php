@@ -86,6 +86,8 @@ return [
     'archived_questions' => 'Archivovaná otázka',
     'historical_results' => 'Historické výsledky',
     'current_results' => 'Aktuálne výsledky',
+    'save_changes' => 'Uložiť zmeny',
+    'edit_in_name' => 'Upraviť v mene',
 ];
 
 ?>

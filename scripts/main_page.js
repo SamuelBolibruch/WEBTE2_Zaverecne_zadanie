@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 cell8.textContent = question.user_email;
                 var checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
-                checkbox.checked = question.is_active;
+                if(question.is_active === 'true') checkbox.checked = true;
 
                 checkbox.addEventListener('change', function () {
                     Swal.fire({
@@ -116,6 +116,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 removeImage.classList.add('question-id-cell');
                 cell6.appendChild(removeImage);
 
+                var editImage = document.createElement('img');
+                editImage.src = 'images/edit.png';
+                editImage.classList.add('edit-image');
+                editImage.classList.add('question-id-cell');
+                cell6.appendChild(editImage);
+
+                var copyImage = document.createElement('img');
+                copyImage.src = 'images/copy.png';
+                copyImage.classList.add('copy-image');
+                copyImage.classList.add('question-id-cell');
+                cell6.appendChild(copyImage);
+
                 removeImage.addEventListener('click', function() {
                     Swal.fire({
                         title: 'Naozaj chcete vymazať túto otázku?',
@@ -150,6 +162,16 @@ document.addEventListener("DOMContentLoaded", function () {
                             xhr.send();
                         }
                     });
+                });
+
+                editImage.addEventListener('click', function() {
+                    var questionId = question.id;
+
+                    window.location.href = "edit_question.php?id=" + questionId;
+                });
+
+                copyImage.addEventListener('click', function() {
+
                 });
 
                 var cell9 = row.insertCell(8); // New cell for close voting
