@@ -166,12 +166,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 editImage.addEventListener('click', function() {
                     var questionId = question.id;
-
                     window.location.href = "edit_question.php?id=" + questionId;
                 });
 
                 copyImage.addEventListener('click', function() {
-
+                    var questionId = question.id;
+                    window.location.href = "copy_question.php?id=" + questionId;
                 });
 
                 var cell9 = row.insertCell(8); // New cell for close voting
