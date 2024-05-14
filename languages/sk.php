@@ -88,6 +88,7 @@ return [
     'current_results' => 'Aktuálne výsledky',
     'save_changes' => 'Uložiť zmeny',
     'edit_in_name' => 'Upraviť v mene',
+    'manual' => 'Príručka',
 ];
 
 ?>

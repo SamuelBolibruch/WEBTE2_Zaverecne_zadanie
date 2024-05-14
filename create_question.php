@@ -37,6 +37,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
+
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,22 +50,22 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
             <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN"
                                     style="height: 20px; width: 30px"></a>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="main_page.php"><?php echo $lang['questions']; ?><span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="create_question.php"><?php echo $lang['create_question']; ?></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><?php echo $lang['pricing']; ?></a>
+                <a class="nav-link" href="show_results.php"><?php echo $lang['show_results']; ?></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#"><?php echo $lang['disabled']; ?></a>
+                <a class="nav-link" href="manual.php"><?php echo $lang['manual']; ?></a>
             </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <div class="nav-link"><?php echo $email; ?></div> <!-- Zobrazenie emailu -->
+                <div class="nav-link"><?php echo $email; ?></div>
             </li>
             <li class="nav-item">
                 <div class="nav-link">
@@ -88,7 +89,7 @@ $email = $_SESSION["email"]; // Načítanie emailu z relácie
                 <a class="nav-link" href="change_password.php"><?php echo $lang['change_password']; ?></a>
             </li>
             <li class="nav-item">
-                <a class="btn btn-danger" href="logout.php"><?php echo $lang['logout']; ?></a>
+                <a class="btn btn-danger" href="logout.php"><?php echo $lang["logout"]; ?></a>
             </li>
         </ul>
     </div>

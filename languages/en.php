@@ -87,6 +87,7 @@ return [
     'current_results' => 'Current results',
     'save_changes' => 'Save changes',
     'edit_in_name' => 'Edit in name',
+    'manual' => 'User manual',
 
 ];
 

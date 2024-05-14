@@ -18,6 +18,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
+$email = $_SESSION["email"]; // Načítanie emailu z relácie
+
 function getFontSize($count, $maxCount) {
     $minFontSize = 12;
     $maxFontSize = 48;
@@ -148,21 +150,19 @@ try {
     </button>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-            <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a>
-            <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN"
-                                    style="height: 20px; width: 30px"></a>
-
-            <li class="nav-item">
+            <a href="?lang=sk"><img src="images/Flag_of_Slovakia.png" alt="SK" style="height: 20px; width: 30px"></a> ./.
+            <a href="?lang=en"><img src="images/Flag_of_the_United_Kingdom.png" alt="EN" style="height: 20px; width: 30px"></a>
+            <li class="nav-item active">
                 <a class="nav-link" href="main_page.php"><?php echo $lang['questions']; ?><span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="create_question.php"><?php echo $lang['create_question']; ?></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><?php echo $lang['pricing']; ?></a>
+                <a class="nav-link" href="show_results.php"><?php echo $lang['show_results']; ?></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#"><?php echo $lang['disabled']; ?></a>
+                <a class="nav-link" href="manual.php"><?php echo $lang['manual']; ?></a>
             </li>
         </ul>
         <ul class="navbar-nav">

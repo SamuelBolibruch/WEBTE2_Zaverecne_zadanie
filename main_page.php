@@ -108,10 +108,7 @@ try {
                 <a class="nav-link" href="show_results.php"><?php echo $lang['show_results']; ?></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><?php echo $lang['pricing']; ?></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#"><?php echo $lang['disabled']; ?></a>
+                <a class="nav-link" href="manual.php"><?php echo $lang['manual']; ?></a>
             </li>
         </ul>
         <ul class="navbar-nav">
