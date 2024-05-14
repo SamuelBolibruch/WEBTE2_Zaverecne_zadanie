@@ -24,3 +24,14 @@
     font-weight: bold;
     color: #333;
 }
+
+@media (max-width: 767px) {
+    .manual_image {
+        width: 100%;
+        height: auto;
+    }
+    .manual_text {
+        width: 100%;
+        height: auto;
+    }
+}

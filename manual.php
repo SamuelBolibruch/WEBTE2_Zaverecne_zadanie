@@ -49,7 +49,7 @@ function generatePDF($htmlContent) {
 function generateManualContent() {
     ob_start(); // Začatie vyhotovenia vygenerovaného obsahu
     ?>
-    <h3><?php echo $lang["manual"]; ?></h3>
+    <h3>Príručka</h3>
     <div class="manual_container">
         <?php
         // Nastaví cestu k obrázku

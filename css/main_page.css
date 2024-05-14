@@ -126,3 +126,34 @@
     display: inline-block;
     cursor: pointer;
 }
+
+#questionsTable_wrapper {
+    padding: 2em;
+    width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 767px) {
+    .container {
+        height: auto;
+        padding: 1rem;
+    }
+
+    #questionsTable_wrapper {
+        padding: 1em;
+    }
+
+    .modal-content {
+        margin: 10% auto;
+    }
+
+    .select-boxes-div select {
+        width: 100%;
+    }
+
+    #export_button {
+        padding: 0.4em 1.2em;
+    }
+}
+
+
