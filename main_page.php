@@ -168,6 +168,11 @@ try {
 
             ?>
         </select>
+
+        <form action="export_questions.php" method="post">
+            <button type="submit" name="export" id="export_button"><?php echo "Export"; ?></button>
+        </form>
+
     </div>
 
 

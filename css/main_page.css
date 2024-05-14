@@ -114,3 +114,15 @@
 .centered-items {
     text-align: center;
 }
+
+#export_button {
+    background-color: #4CAF50;
+    border: 0.1em solid #1e7a32;
+    border-radius: 0.4em;
+    color: white;
+    padding: 0.6em 1.6em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
