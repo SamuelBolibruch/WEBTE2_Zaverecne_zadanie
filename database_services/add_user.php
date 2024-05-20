@@ -163,6 +163,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+    var lang = {
+        error: '<?php echo addslashes($lang['error']); ?>',
+        success: '<?php echo addslashes($lang['success']); ?>',
+        successfullyCreated: '<?php echo addslashes($lang['user_successfully_created']); ?>',
+        passwordMismatch: '<?php echo addslashes($lang['password_mismatch']); ?>',
+        userAlreadyExists: '<?php echo addslashes($lang['user_already_exists']); ?>',
+        errorCreatingUser: '<?php echo addslashes($lang['error_creating_user']); ?>'
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
@@ -171,26 +180,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (status === 'success') {
             Swal.fire({
                 icon: 'success',
-                title: 'Úspech!',
-                text: 'Používateľ bol úspešne vytvorený.'
+                title: lang.success,
+                text: lang.successfullyCreated
             });
         } else if( status === 'password_error'){
             Swal.fire({
                 icon: 'error',
-                title: 'Chyba!',
-                text: 'Heslá sa nezhodujú'
+                title: lang.error,
+                text: lang.passwordMismatch
             });
         } else if( status === 'user_exists') {
             Swal.fire({
                 icon: 'error',
-                title: 'Chyba!',
-                text: 'Používateľ už existuje'
+                title: lang.error,
+                text: lang.userAlreadyExists
             });
         } else if( status === 'error'){
             Swal.fire({
                 icon: 'error',
-                title: 'Chyba!',
-                text: 'Nastala chyba pri vytváraní nového používateľa.'
+                title: lang.error,
+                text: lang.errorCreatingUser
             });
         }
     });

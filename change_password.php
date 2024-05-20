@@ -142,27 +142,21 @@ $email = $_SESSION["email"];
                         $update_stmt->bindParam(':email', $email);
 
                         if ($update_stmt->execute()) {
-                            // Password updated successfully
-                            echo "Heslo bolo úspešne zmenené.";
+                            echo $lang['password_updated_successfully'];
                         } else {
-                            // Error updating password
-                            echo "Chyba pri zmene hesla.";
+                            echo $lang['error_updating_password'];
                         }
                     } else {
-                        // New password and confirm new password do not match
-                        echo "Potvrdzovacie heslo sa nezhoduje s novým heslom.";
+                        echo $lang['new_password_and_confirm_new_password_do_not_match'];
                     }
                 } else {
-                    // New password is the same as old password
-                    echo "Nové heslo sa musí líšiť od starého hesla.";
+                    echo $lang['new_password_is_the_same_as_old_password'];
                 }
             } else {
-                // Old password is incorrect
-                echo "Zadali ste chybné heslo.";
+                echo $lang['old_password_is_incorrect'];
             }
         } else {
-            // Error fetching password from database
-            echo "Chyba pri práci s databázou.";
+            echo $lang['error_fetching_password_from_database'];
         }
     }
     ?>

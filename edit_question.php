@@ -50,14 +50,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Aktualizácia údajov v databáze
     $stmt = $conn->prepare("UPDATE questions SET user_email = ?, question = ?, subject = ? WHERE id = ?");
     if (!$stmt->execute([$userEmail, $question, $subject, $questionId])) {
-        echo "Chyba pri vykonávaní SQL príkazu: " . $stmt->errorInfo();
+        echo $lang['error_executing_sql_statement'] . $stmt->errorInfo();
     }
 
     if ($stmt->rowCount() > 0) {
         header("location: index.php");
         exit;
     } else {
-        echo "Chyba";
         header("location: index.php");
         exit;
     }

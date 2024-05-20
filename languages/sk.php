@@ -8,6 +8,7 @@ return [
     'password' => 'Heslo:',
     'set_password' => 'Nastaviť Heslo:',
     'submit' => 'Odoslať',
+    'error' => 'Chyba',
     'signIn' => 'Prihlásiť sa',
     'edit' => 'Upraviť',
     'delete' => 'Odstrániť',
@@ -89,6 +90,22 @@ return [
     'save_changes' => 'Uložiť zmeny',
     'edit_in_name' => 'Upraviť v mene',
     'manual' => 'Príručka',
+    'password_updated_successfully' => 'Heslo bolo úspešne zmenené.',
+    'error_updating_password' => 'Chyba pri zmene hesla.',
+    'new_password_and_confirm_new_password_do_not_match' => 'Potvrdzovacie heslo sa nezhoduje s novým heslom.',
+    'new_password_is_the_same_as_old_password' => 'Nové heslo sa musí líšiť od starého hesla.',
+    'old_password_is_incorrect' => 'Zadali ste chybné heslo.',
+    'error_fetching_password_from_database' => 'Chyba pri práci s databázou.',
+    'error_executing_sql_statement' => 'Chyba pri vykonávaní SQL príkazu',
+    'passwords_missmatch' => 'Heslá sa nezhodujú',
+    'user_not_found' => 'Používateľ neexistuje',
+    'user_not_admin' => 'Používateľ nie je administrátor',
+    'success' => 'Úspech',
+    'user_successfully_deleted' => 'Používateľ bol úspešne vymazaný.',
+    'user_successfully_created' => 'Používateľ bol úspešne vytvorený.',
+    'user_successfully_edited' => 'Používateľ bol úspešne upravený.',
+    'error_creating_user' => 'Chyba pri vytváraní nového používateľa.'
+
 ];
 
 ?>

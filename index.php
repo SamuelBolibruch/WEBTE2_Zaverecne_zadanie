@@ -113,6 +113,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+    var lang = {
+        error: '<?php echo addslashes($lang['error']); ?>',
+        passwordMismatch: '<?php echo addslashes($lang['password_mismatch']); ?>',
+        userNotFound: '<?php echo addslashes($lang['user_not_found']); ?>',
+        notAdmin: '<?php echo addslashes($lang['user_not_admin']); ?>'
+    };
+
+
     document.addEventListener('DOMContentLoaded', function () {
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
@@ -121,20 +129,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (status === 'password_error') {
             Swal.fire({
                 icon: 'error',
-                title: 'Chyba!',
-                text: 'Heslá sa nezhodujú'
+                title: lang.error,
+                text: lang.passwordMismatch
             });
         } else if (status === 'user_not_exists') {
             Swal.fire({
                 icon: 'error',
-                title: 'Chyba!',
-                text: 'Používateľ neexistuje'
+                title: lang.error,
+                text: lang.userNotFound
             });
         } else if (status === 'not_admin') {
             Swal.fire({
                 icon: 'error',
-                title: 'Chyba!',
-                text: 'Používateľ nie je admin'
+                title: lang.error,
+                text: lang.notAdmin
             });
         }
     });

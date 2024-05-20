@@ -26,7 +26,7 @@ try {
     $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo "Chyba databázy: " . $e->getMessage();
+    echo $lang['error'] . $e->getMessage();
 }
 
 ?>
@@ -111,9 +111,9 @@ try {
 <table class="table">
     <thead>
     <tr>
-        <th>Email</th>
-        <th>Admin</th>
-        <th>Akcie</th>
+        <th><?php echo $lang['email']; ?></th>
+        <th><?php echo $lang['admin']; ?></th>
+        <th><?php echo $lang['actions']; ?></th>
     </tr>
     </thead>
     <tbody>
@@ -141,6 +141,15 @@ try {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+    var lang = {
+        error: '<?php echo addslashes($lang['error']); ?>',
+        success: '<?php echo addslashes($lang['success']); ?>',
+        successfullyDeleted: '<?php echo addslashes($lang['user_successfully_deleted']); ?>',
+        successfullyCreated: '<?php echo addslashes($lang['user_successfully_created']); ?>',
+        successfullyEdited: '<?php echo addslashes($lang['user_successfully_edited']); ?>',
+    };
+
+
     document.addEventListener('DOMContentLoaded', function () {
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
@@ -149,26 +158,26 @@ try {
         if (status === 'success_deleted') {
             Swal.fire({
                 icon: 'success',
-                title: 'Úspech!',
-                text: 'Používateľ bol úspešne vymazaný.'
+                title: lang.success,
+                text: lang.successfullyDeleted
             });
         } else if (status === 'success_added') {
             Swal.fire({
                 icon: 'success',
-                title: 'Úspech!',
-                text: 'Používateľ bol úspešne vytvorený.'
+                title: lang.success,
+                text: lang.successfullyCreated
             });
         } else if (status === 'success_edited') {
             Swal.fire({
                 icon: 'success',
-                title: 'Úspech!',
-                text: 'Používateľ bol úspešne upravený.'
+                title: lang.success,
+                text: lang.successfullyEdited
             });
         } else if (status === 'error') {
             Swal.fire({
                 icon: 'error',
-                title: 'Chyba!',
-                text: 'Nepodarilo sa vymazať používateľa: ' + decodeURIComponent(message)
+                title: lang.error,
+                text: lang.error + decodeURIComponent(message)
             });
         }
     });

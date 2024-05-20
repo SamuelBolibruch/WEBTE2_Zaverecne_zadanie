@@ -8,6 +8,7 @@ return [
     'password' => 'Password:',
     'set_password' => 'Set Password:',
     'submit' => 'Submit',
+    'error' => 'Error',
     'signIn' => 'Sign In',
     'edit' => 'Edit',
     'delete' => 'Delete',
@@ -88,6 +89,21 @@ return [
     'save_changes' => 'Save changes',
     'edit_in_name' => 'Edit in name',
     'manual' => 'User manual',
+    'password_updated_successfully' => 'Password updated successfully.',
+    'error_updating_password' => 'Error updating password.',
+    'new_password_and_confirm_new_password_do_not_match' => 'New password and confirm new password do not match',
+    'new_password_is_the_same_as_old_password' => 'New password is the same as old password.',
+    'old_password_is_incorrect' => 'Old password is incorrect.',
+    'error_fetching_password_from_database' => 'Error fetching password from database.',
+    'error_executing_sql_statement' => 'Error executing sql statement',
+    'passwords_missmatch' => 'Passwords missmatch',
+    'user_not_found' => 'User not found',
+    'user_not_admin' => 'User is not admin',
+    'success' => 'Success',
+    'user_successfully_deleted' => 'User successfully deleted.',
+    'user_successfully_created' => 'User successfully created.',
+    'user_successfully_edited' => 'User successfully edited.',
+    'error_creating_user' => 'Error creating user.'
 
 ];
 
